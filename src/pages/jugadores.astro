@@ -1,0 +1,64 @@
+---
+// src/pages/jugadores.astro
+import Layout from '../layouts/Layout.astro';
+import PlayerCard from '../components/features/PlayerCard.jsx';
+
+const response = await fetch('http://localhost:8080/young-warriors-web/api/players.php');
+const playersData = await response.json();
+
+// Buscamos al MVP en nuestros datos
+const mvp = playersData.find(player => player.isMVP);
+---
+<Layout
+  title="Nuestros Jugadores | Plantilla de Young Warriors"
+  description="Conoce a los talentosos jugadores de Young Warriors Club. Revisa sus perfiles, habilidades y logros."
+>
+  <section class="page-header">
+    <div class="container-narrow">
+      <span>Nuestros Guerreros</span>
+      <h1>La Plantilla de Young Warriors</h1>
+      <p>El talento, la dedicación y el corazón que definen a nuestro club en la cancha.</p>
+    </div>
+  </section>
+
+  {mvp && (
+    <section class="mvp-section container">
+      <h2>🏆 Jugador del Mes</h2>
+      <div class="mvp-card-wrapper">
+        <PlayerCard client:visible player={mvp} />
+      </div>
+    </section>
+  )}
+
+  <section class="squad-section container">
+    <h2>Conoce a todo el equipo</h2>
+    <div class="player-grid">
+      {playersData.map(player => (
+        <PlayerCard client:visible player={player} />
+      ))}
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* Estilos generales (iguales a otras páginas) */
+  .container { max-width: 1200px; margin: 0 auto; padding: 4rem 1.5rem; }
+  .container-narrow { max-width: 800px; margin: 0 auto; padding: 4rem 1.5rem; text-align: center; }
+  .page-header { background-color: #f9fafb; }
+  .page-header span { color: #6366f1; font-weight: 600; }
+  .page-header h1 { font-size: 3rem; margin-top: 0.5rem; }
+  .page-header p { margin-top: 1rem; font-size: 1.1rem; }
+  h2 { font-size: 2.5rem; text-align: center; margin-bottom: 2.5rem; }
+  
+  /* Estilos específicos de esta página */
+  .mvp-section { padding-top: 0; }
+  .mvp-card-wrapper {
+    max-width: 450px; /* Hacemos la tarjeta del MVP un poco más grande */
+    margin: 0 auto;
+  }
+  .player-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+  }
+</style>

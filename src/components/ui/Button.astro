@@ -1,0 +1,35 @@
+---
+// src/components/ui/Button.astro
+
+// 1. Añadimos "class" como una propiedad opcional
+export interface Props {
+    href: string;
+    text: string;
+    class?: string;
+}
+// 2. Renombramos "class" a "className" para usarlo como variable
+const { href, text, class: className } = Astro.props;
+---
+
+<a href={href} class:list={["button", className]}>
+    {text}
+</a>
+
+<style>
+.button {
+    /* ... tus estilos base del botón ... */
+    display: inline-block;
+    background-color: #6366f1;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.button:hover {
+    background-color: #4f46e5;
+    transform: translateY(-2px);
+}
+</style>
