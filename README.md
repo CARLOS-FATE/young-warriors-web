@@ -1,46 +1,26 @@
-# Astro Starter Kit: Basics
+Young Warriors Club - Sitio Web y Panel de Administración
+Este es el repositorio del sitio web oficial y el panel de administración para el club de baloncesto "Young Warriors". El proyecto está construido con un stack moderno para el frontend y un backend de PHP conectado a una base de datos MySQL.
 
-```sh
-npm create astro@latest -- --template basics
-```
+✨ Características Principales
+Sitio Web Público: Un sitio web estático rápido y moderno construido con Astro.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Páginas informativas: Inicio, Nosotros, Entrenadores, etc.
 
-## 🚀 Project Structure
+Secciones dinámicas (Jugadores, Blog) que consumen datos desde una API.
 
-Inside of your Astro project, you'll see the following folders and files:
+Diseño adaptable a dispositivos móviles.
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
-```
+API Backend: Un backend simple y efectivo hecho en PHP para servir los datos del sitio.
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+Base de Datos: Toda la información se gestiona a través de una base de datos MySQL.
 
-## 🧞 Commands
+Panel de Administración: Una interfaz privada para gestionar entrenadores, jugadores y artículos del blog (CRUD completo) sin necesidad de tocar el código.
 
-All commands are run from the root of the project, from a terminal:
+Portal para Padres: Un sistema de login y sesión para una futura zona privada para padres.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+🛠️ Tecnologías Utilizadas
+Frontend: Astro (con React para componentes interactivos)
 
-## 👀 Want to learn more?
+Backend: PHP
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Base de Datos: MySQL

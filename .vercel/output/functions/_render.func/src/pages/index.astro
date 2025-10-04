@@ -1,0 +1,158 @@
+---
+// src/pages/index.astro
+import Layout from '../layouts/Layout.astro';
+import Button from '../components/ui/Button.astro';
+import Card from '../components/ui/Card.astro';
+
+// Datos de los entrenadores (esto luego vendrá de la API)
+const featuredCoaches = [
+  { name: 'Juan Pérez', role: 'Entrenador Principal', img: '/images/coach1.jpg' },
+  { name: 'Maria García', role: 'Asistente Técnico', img: '/images/coach2.jpg' },
+  { name: 'Carlos Mendoza', role: 'Preparador Físico', img: '/images/coach3.jpg' },
+];
+
+const WHATSAPP_NUMBER = '51987654321'; // 👈 ¡IMPORTANTE! Reemplaza con tu número
+const WHATSAPP_MESSAGE = 'Hola, quisiera más información sobre las inscripciones en Young Warriors Club.';
+const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
+---
+
+<Layout 
+  title="Formando Campeones de Baloncesto en Trujillo" 
+  description="Young Warriors Club, la mejor academia de baloncesto para niños y jóvenes en Trujillo. Fomentamos el talento, la disciplina y el trabajo en equipo."
+>
+  <section class="hero">
+    <div class="hero-content">
+      <h1 class="tagline">Donde nacen las leyendas del mañana.</h1>
+      <p class="subtitle">Transforma el potencial en excelencia. Únete a la familia de Young Warriors y lleva tu juego al siguiente nivel.</p>
+      <Button href={WHATSAPP_URL} text="Inscríbete por WhatsApp" />
+    </div>
+  </section>
+
+  <section class="features container">
+    <div class="feature-card">
+	<Card>
+      <h3>Entrenamiento Profesional</h3> 
+	 <p>Metodologías modernas y entrenadores certificados para un desarrollo técnico de élite.</p>
+    </Card>
+	</div>
+    <div class="feature-card">
+	<Card>
+      <h3>Desarrollo Integral</h3>
+      <p>Fomentamos valores como la disciplina, el respeto y la perseverancia dentro y fuera de la cancha.</p>
+	</Card>
+	</div>
+    <div class="feature-card">
+    <Card>
+		<h3>Comunidad Fuerte</h3>
+      <p>Un ambiente de apoyo donde los jugadores crean lazos de amistad para toda la vida.</p>
+    </Card>
+	</div>
+  </section>
+
+  <section class="coaches container">
+    <h2>Conoce a nuestro Staff</h2>
+    <p>Profesionales apasionados y dedicados al crecimiento de cada jugador.</p>
+    <div class="coaches-grid">
+      {featuredCoaches.map(coach => (
+        <div class="coach-card">
+          <img src={coach.img} alt={`Foto de ${coach.name}`} loading="lazy" />
+          <h3>{coach.name}</h3>
+          <span>{coach.role}</span>
+        </div>
+      ))}
+    </div>
+    <div class="more-link">
+      <a href="/entrenadores">Ver todo el staff →</a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* Estilos generales y de contenedor */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem;
+  }
+  h1, h2, h3 { color: #111827; }
+
+  /* Estilos de la Sección Hero */
+  .hero {
+    background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('/images/hero-background.jpg');
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-align: center;
+    padding: 8rem 1.5rem;
+  }
+  .hero-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  .tagline {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 1rem;
+  }
+  .subtitle {
+    font-size: 1.25rem;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+  }
+
+  /* Estilos de la Sección de Valores */
+  .features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    text-align: center;
+  }
+  .feature-card {
+    background-color: #f9fafb;
+    padding: 2rem;
+    border-radius: 0.5rem;
+  }
+
+  /* Estilos de la Sección de Entrenadores */
+  .coaches {
+    text-align: center;
+    background-color: #f9fafb;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+  .coaches-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  .coach-card {
+    background: white;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  }
+  .coach-card img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+  }
+  .coach-card h3 {
+    margin: 1rem 0 0.25rem;
+  }
+  .coach-card span {
+    color: #6366f1;
+    font-weight: 500;
+    display: block;
+    margin-bottom: 1rem;
+  }
+  .more-link {
+    margin-top: 2.5rem;
+  }
+  .more-link a {
+    color: #6366f1;
+    font-weight: 600;
+    text-decoration: none;
+  }
+</style>
