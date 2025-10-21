@@ -56,7 +56,7 @@
   margin-top: 0.25rem;
 }
 .skill-bar {
-  background-color: #6366f1;
+  background-color: var(--color-primary);
   height: 100%;
   border-radius: 9999px;
 }

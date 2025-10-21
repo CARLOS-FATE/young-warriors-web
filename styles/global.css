@@ -1,0 +1,30 @@
+/* src/styles/global.css */
+
+:root {
+  /* --- Tu Nueva Paleta de Colores "Young Warriors" --- */
+
+  /* Naranja principal del logo */
+  --color-primary: #f39c12; 
+  
+  /* Naranja más oscuro (para hovers) */
+  --color-primary-dark: #e67e22; 
+  
+  /* Negro del trazo del logo */
+  --color-dark: #1C1C1C; 
+  
+  /* Blanco del interior del logo */
+  --color-light: #ffffff;
+  
+  /* Grises para texto y fondos */
+  --color-text: #222222;
+  --color-bg-muted: #f9fafb; /* Podemos mantener este gris claro */
+}
+
+/* Aplicamos colores base */
+body {
+  color: var(--color-text);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-dark);
+}

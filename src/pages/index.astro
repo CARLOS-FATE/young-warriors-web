@@ -74,14 +74,14 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent
     margin: 0 auto;
     padding: 4rem 1.5rem;
   }
-  h1, h2, h3 { color: #111827; }
+  /* Los h1, h2, h3 ahora toman su color de global.css */
 
   /* Estilos de la Sección Hero */
   .hero {
     background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('/images/hero-background.jpg');
     background-size: cover;
     background-position: center;
-    color: white;
+    color: var(--color-light); /* Texto blanco sobre el fondo oscuro */
     text-align: center;
     padding: 8rem 1.5rem;
   }
@@ -92,7 +92,7 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent
   .tagline {
     font-size: 3.5rem;
     font-weight: 800;
-    color: white;
+    color: var(--color-light); /* Título principal en blanco */
     margin-bottom: 1rem;
   }
   .subtitle {
@@ -108,16 +108,16 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent
     gap: 2rem;
     text-align: center;
   }
-  .feature-card {
-    background-color: #f9fafb;
+  /* Ajuste para que el componente Card funcione bien */
+  .feature-card-wrapper :global(.card) {
+    background-color: var(--color-bg-muted);
     padding: 2rem;
-    border-radius: 0.5rem;
   }
 
   /* Estilos de la Sección de Entrenadores */
   .coaches {
     text-align: center;
-    background-color: #f9fafb;
+    background-color: var(--color-bg-muted); /* Fondo gris claro */
     padding-top: 4rem;
     padding-bottom: 4rem;
   }
@@ -128,7 +128,7 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent
     margin-top: 2rem;
   }
   .coach-card {
-    background: white;
+    background: var(--color-light); /* Fondo blanco */
     border-radius: 0.5rem;
     overflow: hidden;
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
@@ -142,7 +142,7 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent
     margin: 1rem 0 0.25rem;
   }
   .coach-card span {
-    color: #6366f1;
+    color: var(--color-primary); /* ¡Color de acento naranja! */
     font-weight: 500;
     display: block;
     margin-bottom: 1rem;
@@ -151,7 +151,7 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent
     margin-top: 2.5rem;
   }
   .more-link a {
-    color: #6366f1;
+    color: var(--color-primary); /* ¡Color de acento naranja! */
     font-weight: 600;
     text-decoration: none;
   }

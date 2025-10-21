@@ -43,8 +43,8 @@ const postsData = await response.json();
   /* Estilos generales y de encabezado (reutilizados) */
   .container { max-width: 1200px; margin: 0 auto; padding: 4rem 1.5rem; }
   .container-narrow { max-width: 800px; margin: 0 auto; padding: 4rem 1.5rem; text-align: center; }
-  .page-header { background-color: #f9fafb; }
-  .page-header span { color: #6366f1; font-weight: 600; }
+  .page-header { background-color: var(--color-bg-muted); }
+  .page-header span { color: var(--color-primary); font-weight: 600; }
   .page-header h1 { font-size: 3rem; margin-top: 0.5rem; }
   .page-header p { margin-top: 1rem; font-size: 1.1rem; }
 
@@ -81,7 +81,7 @@ const postsData = await response.json();
   .post-category {
     font-size: 0.8rem;
     font-weight: 600;
-    color: #6366f1;
+    color: var(--color-primary);
   }
   .post-title {
     margin: 0.5rem 0;
@@ -95,6 +95,6 @@ const postsData = await response.json();
     display: inline-block;
     margin-top: 1rem;
     font-weight: 600;
-    color: #6366f1;
+    color: var(--color-primary);
   }
 </style>

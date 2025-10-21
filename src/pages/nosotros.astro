@@ -64,10 +64,10 @@ import Layout from '../layouts/Layout.astro';
 
   /* Estilos del Encabezado */
   .page-header {
-    background-color: #f9fafb;
+    background-color: var(--color-bg-muted);
   }
   .page-header span {
-    color: #6366f1;
+    color: var(--color-primary);
     font-weight: 600;
   }
   .page-header h1 {
@@ -115,7 +115,7 @@ import Layout from '../layouts/Layout.astro';
     overflow: hidden;
     box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
     position: relative;
-    padding-bottom: 56.25%; /* Proporción 16:9 para que sea responsive */
+    padding-bottom: 56.25%; 
     height: 0;
   }
   .map-container iframe {
