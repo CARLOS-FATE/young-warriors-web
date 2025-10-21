@@ -2,7 +2,7 @@
 // src/pages/blog/[slug].astro
 import Layout from '../../layouts/Layout.astro';
 
-const response = await fetch('http://localhost:8080/young-warriors-web/api/posts.php');
+const response = await fetch('/api/posts.php');
 const allPosts = await response.json();
 
 // Esta función le dice a Astro qué páginas debe crear en base a los slugs.

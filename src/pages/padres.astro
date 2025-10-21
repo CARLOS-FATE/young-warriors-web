@@ -25,7 +25,7 @@ const error = Astro.url.searchParams.get('error');
 
       {error && <p class="error-message">Usuario o contraseña incorrectos. Por favor, intenta de nuevo.</p>}
 
-      <form action="http://localhost:8080/young-warriors-web/api/login_process.php" method="post">
+      <form action="/api/login_process.php" method="post">
         <div class="form-group">
           <label for="username">Nombre de Usuario</label>
           <input type="text" id="username" name="username" placeholder="usuario.de.prueba" required>
@@ -47,7 +47,7 @@ const error = Astro.url.searchParams.get('error');
   /* Estilos generales (reutilizados) */
   .container { max-width: 1200px; margin: 0 auto; padding: 4rem 1.5rem; }
   .container-narrow { max-width: 800px; margin: 0 auto; padding: 4rem 1.5rem; text-align: center; }
-  .page-header { background-color: var(--color-bg--muted); }
+  .page-header { background-color: var(--color-bg-muted); }
   .page-header span { color: var(--color-primary); font-weight: 600; }
   .page-header h1 { font-size: 3rem; margin-top: 0.5rem; }
   .page-header p { margin-top: 1rem; font-size: 1.1rem; }
@@ -97,8 +97,8 @@ const error = Astro.url.searchParams.get('error');
   .submit-button {
     /* --- AQUÍ PEGAS LOS ESTILOS --- */
     display: inline-block;
-    background-color: #6366f1;
-    color: white;
+    background-color: var(--color-primary);
+    color: var(--color-light);
     padding: 0.75rem 1.5rem;
     border-radius: 0.5rem;
     text-decoration: none;
@@ -111,7 +111,7 @@ const error = Astro.url.searchParams.get('error');
     transition: background-color 0.2s ease, transform 0.2s ease;
   }
   .submit-button:hover {
-    background-color: #4f46e5;
+    background-color: var(--color-primary-dark);
     transform: translateY(-2px);
   }
 

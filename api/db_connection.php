@@ -2,7 +2,7 @@
 // api/db_connection.php
 
 ini_set('display_errors', 1);
-error_reporting(E_ALL);
+error_reporting(error_level: E_ALL);
 
 $servername = getenv('DB_HOST');
 $username = getenv('DB_USERNAME');

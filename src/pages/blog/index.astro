@@ -5,7 +5,7 @@ import Card from '../../components/ui/Card.astro';
 
 // Datos de los artículos del blog.
 // Por ahora están aquí, pero luego vendrán del backend.
-const response = await fetch('http://localhost:8080/young-warriors-web/api/posts.php');
+const response = await fetch('/api/posts.php');
 const postsData = await response.json();
 ---
 <Layout
