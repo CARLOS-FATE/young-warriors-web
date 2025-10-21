@@ -1,6 +1,12 @@
 <?php
 // api/db_connection.php
 
+ini_set('display_errors', 1); // <-- Añade esto para ver errores
+error_reporting(E_ALL); // <-- Y esto
+
+// Definimos una constante con la ruta raíz
+define('PROJECT_ROOT', dirname(__DIR__));
+
 $servername = getenv('DB_HOST');
 $username = getenv('DB_USERNAME');
 $password = getenv('DB_PASSWORD');
