@@ -4,15 +4,8 @@ require_once 'auth.php';
 // Verificar que se haya proporcionado un ID
 if(isset($_GET['id']) && !empty($_GET['id'])){
     // Conexión a la BD
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "young_warriors_db";
-    $conn = new mysqli($servername, $username, $password, $dbname);
+require_once  '../api/db_connection.php'; 
 
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
 
     // Preparar la consulta SQL para eliminar
     $sql = "DELETE FROM coaches WHERE id = ?";

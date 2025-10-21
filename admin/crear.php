@@ -4,15 +4,7 @@ require_once 'auth.php';
 // --- Lógica para procesar el formulario cuando se envía ---
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Conexión a la BD
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "young_warriors_db";
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+require_once  '../api/db_connection.php'; 
 
     // Recoger los datos del formulario
     $name = $_POST['name'];

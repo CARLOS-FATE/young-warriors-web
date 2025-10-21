@@ -2,13 +2,7 @@
 // admin/players.php
 
 require_once 'auth.php';
-
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "young_warriors_db";
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error); }
+require_once  '../api/db_connection.php'; 
 
 $sql = "SELECT id, name, position FROM players ORDER BY id DESC";
 $result = $conn->query($sql);

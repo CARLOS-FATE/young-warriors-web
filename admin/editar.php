@@ -2,15 +2,10 @@
 // admin/editar.php
 require_once 'auth.php';
 // --- Conexión a la BD (la necesitaremos en ambos casos) ---
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "young_warriors_db";
-$conn = new mysqli($servername, $username, $password, $dbname);
+require_once $_SERVER['DOCUMENT_ROOT'] . '/api/db_connection.php'; // Esta línea hace la conexión a TiDB Cloud
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json; charset=UTF-8");
 
 // --- Parte 1: Lógica para ACTUALIZAR los datos cuando se envía el formulario ---
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

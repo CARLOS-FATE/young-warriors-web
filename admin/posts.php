@@ -3,12 +3,7 @@
 
 require_once 'auth.php';
 
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "young_warriors_db";
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error); }
+require_once  '../api/db_connection.php'; 
 
 // Seleccionamos los datos de la tabla 'posts'
 $sql = "SELECT id, title, category FROM posts ORDER BY id DESC";

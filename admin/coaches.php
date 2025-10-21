@@ -2,11 +2,10 @@
 // admin/index.php
 require_once 'auth.php';
 // --- Conexión a la BD ---
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "young_warriors_db";
-$conn = new mysqli($servername, $username, $password, $dbname);
+require_once $_SERVER['DOCUMENT_ROOT'] . '/api/db_connection.php'; // Esta línea hace la conexión a TiDB Cloud
+
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json; charset=UTF-8");
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);

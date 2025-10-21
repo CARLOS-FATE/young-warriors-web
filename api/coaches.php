@@ -1,22 +1,9 @@
 <?php
 // api/coaches.php
-require_once $_SERVER['DOCUMENT_ROOT'] . '/api/db_connection.php';
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
+require_once $_SERVER['DOCUMENT_ROOT'] . '/api/db_connection.php'; // Esta línea hace la conexión a TiDB Cloud
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
-
-$servername = "localhost";
-$username = "root";
-$password = "";    
-$dbname = "young_warriors_db";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 $sql = "SELECT id, name, role, img, bio, quote FROM coaches";
 $result = $conn->query($sql);

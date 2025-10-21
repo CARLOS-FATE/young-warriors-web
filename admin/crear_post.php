@@ -4,12 +4,7 @@ require_once 'auth.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // --- Conexión a la BD ---
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "young_warriors_db";
-    $conn = new mysqli($servername, $username, $password, $dbname);
-    if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error); }
+require_once  '../api/db_connection.php'; 
 
     // --- Recoger datos del formulario ---
     $title = $_POST['title'];

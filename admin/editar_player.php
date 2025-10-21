@@ -2,15 +2,8 @@
 
 require_once 'auth.php';
 // admin/editar_player.php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "young_warriors_db";
-$conn = new mysqli($servername, $username, $password, $dbname);
+require_once  '../api/db_connection.php'; 
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 // --- Lógica para ACTUALIZAR si se envía el formulario ---
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

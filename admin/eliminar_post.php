@@ -2,15 +2,7 @@
 // admin/eliminar_post.php
 require_once 'auth.php';
 if(isset($_GET['id']) && !empty($_GET['id'])){
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "young_warriors_db";
-    $conn = new mysqli($servername, $username, $password, $dbname);
-
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+require_once  '../api/db_connection.php'; 
 
     // Preparar la consulta para la tabla 'posts'
     $sql = "DELETE FROM posts WHERE id = ?";

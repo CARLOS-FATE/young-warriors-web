@@ -1,13 +1,7 @@
 <?php
 
 require_once 'auth.php';
-// admin/editar_post.php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "young_warriors_db";
-$conn = new mysqli($servername, $username, $password, $dbname);
-if ($conn->connect_error) { die("Connection failed: " . $conn->connect_error); }
+require_once  '../api/db_connection.php'; 
 
 // --- Lógica para ACTUALIZAR el post ---
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
