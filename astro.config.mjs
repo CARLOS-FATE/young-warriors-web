@@ -4,7 +4,7 @@ import vercel from "@astrojs/vercel";
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://young-warriors.vercel.app',
+  site: 'https://young-warriors-web.vercel.app',
 
   integrations: [react()],
   output: "server",
