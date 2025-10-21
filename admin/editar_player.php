@@ -2,8 +2,7 @@
 
 require_once 'auth.php';
 // admin/editar_player.php
-require_once  '../api/db_connection.php'; 
-
+require_once $_SERVER['DOCUMENT_ROOT'] . '/api/db_connection.php';
 
 // --- Lógica para ACTUALIZAR si se envía el formulario ---
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

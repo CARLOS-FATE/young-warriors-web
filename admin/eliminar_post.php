@@ -2,8 +2,7 @@
 // admin/eliminar_post.php
 require_once 'auth.php';
 if(isset($_GET['id']) && !empty($_GET['id'])){
-require_once  '../api/db_connection.php'; 
-
+require_once $_SERVER['DOCUMENT_ROOT'] . '/api/db_connection.php';
     // Preparar la consulta para la tabla 'posts'
     $sql = "DELETE FROM posts WHERE id = ?";
     

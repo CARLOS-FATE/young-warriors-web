@@ -2,8 +2,7 @@
 // admin/players.php
 
 require_once 'auth.php';
-require_once  '../api/db_connection.php'; 
-
+require_once $_SERVER['DOCUMENT_ROOT'] . '/api/db_connection.php';
 $sql = "SELECT id, name, position FROM players ORDER BY id DESC";
 $result = $conn->query($sql);
 ?>

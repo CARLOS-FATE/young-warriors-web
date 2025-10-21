@@ -2,8 +2,7 @@
 // admin/auth.php
 
 $usuario_valido = 'admin';
-$contrasena_valida = 'Warriors2025!'; // <-- ¡Cambia esta contraseña por una segura!
-
+$contrasena_valida = 'Warriors2025!'; 
 // Si el usuario no ha enviado los datos de autenticación
 if (!isset($_SERVER['PHP_AUTH_USER']) || !isset($_SERVER['PHP_AUTH_PW'])) {
     header('WWW-Authenticate: Basic realm="Panel de Administración"');

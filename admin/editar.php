@@ -4,8 +4,6 @@ require_once 'auth.php';
 // --- Conexión a la BD (la necesitaremos en ambos casos) ---
 require_once $_SERVER['DOCUMENT_ROOT'] . '/api/db_connection.php'; // Esta línea hace la conexión a TiDB Cloud
 
-header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json; charset=UTF-8");
 
 // --- Parte 1: Lógica para ACTUALIZAR los datos cuando se envía el formulario ---
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
