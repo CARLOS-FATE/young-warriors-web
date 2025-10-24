@@ -3,6 +3,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/api/db_connection.php'; // Esta líne
 
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
+ 
 
 // --- Consulta a la nueva tabla players ---
 $sql = "SELECT * FROM players";
