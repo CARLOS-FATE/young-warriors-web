@@ -1,7 +1,7 @@
 <?php
 // dashboard_padres.php
 session_start(); // Reanudar la sesión
-
+require_once $_SERVER['DOCUMENT_ROOT'] . '/api/db_connection.php';
 // Si el padre no ha iniciado sesión, lo redirigimos al login
 if (!isset($_SESSION['parent_id'])) {
     header("Location: /young-warriors-web/padres");

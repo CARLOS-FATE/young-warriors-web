@@ -1,4 +1,7 @@
 <?php
+//api/posts.php
+
+
 require_once $_SERVER['DOCUMENT_ROOT'] . '/api/db_connection.php'; // Esta línea hace la conexión a TiDB Cloud
 
 header("Access-Control-Allow-Origin: *");

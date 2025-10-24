@@ -4,8 +4,7 @@ session_start(); // ¡Muy importante! Inicia o reanuda la sesión
 
 require_once $_SERVER['DOCUMENT_ROOT'] . '/api/db_connection.php'; // Esta línea hace la conexión a TiDB Cloud
 
-header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json; charset=UTF-8");
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user = $_POST['username'];
@@ -25,12 +24,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['parent_username'] = $parent['username'];
         
         // Redirigir al dashboard privado
-        header("Location: ../dashboard_padres.php");
+            header("Location: /dashboard_padres.php");
         exit();
     } else {
         // Credenciales incorrectas: redirigir al login con un error
-        header("Location: ../../padres?error=1");
+            header("Location: /padres?error=1");
         exit();
     }
-}
+}else {
+     // Si alguien intenta acceder directamente a este archivo sin POST, redirigir
+     header("Location: /padres"); 
+     exit();
+    }
 ?>
