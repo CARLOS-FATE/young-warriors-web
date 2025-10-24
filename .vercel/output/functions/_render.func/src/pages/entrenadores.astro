@@ -5,7 +5,7 @@ import CoachCard from '../components/features/CoachCard.astro';
 
 // Aquí definimos los datos de todo el staff.
 // Más adelante, esta información vendrá de tu backend en PHP.
-const response = await fetch('http://localhost:8080/young-warriors-web/api/coaches.php');
+const response = await fetch('/api/coaches.php');
 const coachesData = await response.json();
 ---
 
@@ -43,10 +43,10 @@ const coachesData = await response.json();
     text-align: center;
   }
   .page-header {
-    background-color: #f9fafb;
+    background-color: var(--color-bg-muted);
   }
   .page-header span {
-    color: #6366f1;
+    color: var(--color-primary);
     font-weight: 600;
   }
   .page-header h1 {

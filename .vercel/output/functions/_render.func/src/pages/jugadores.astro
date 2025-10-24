@@ -3,7 +3,7 @@
 import Layout from '../layouts/Layout.astro';
 import PlayerCard from '../components/features/PlayerCard.jsx';
 
-const response = await fetch('http://localhost:8080/young-warriors-web/api/players.php');
+const response = await fetch('/api/players.php');
 const playersData = await response.json();
 
 // Buscamos al MVP en nuestros datos
@@ -44,8 +44,8 @@ const mvp = playersData.find(player => player.isMVP);
   /* Estilos generales (iguales a otras páginas) */
   .container { max-width: 1200px; margin: 0 auto; padding: 4rem 1.5rem; }
   .container-narrow { max-width: 800px; margin: 0 auto; padding: 4rem 1.5rem; text-align: center; }
-  .page-header { background-color: #f9fafb; }
-  .page-header span { color: #6366f1; font-weight: 600; }
+  .page-header { background-color: var(--color-bg-muted); }
+  .page-header span { color: var(--color-primary); font-weight: 600; }
   .page-header h1 { font-size: 3rem; margin-top: 0.5rem; }
   .page-header p { margin-top: 1rem; font-size: 1.1rem; }
   h2 { font-size: 2.5rem; text-align: center; margin-bottom: 2.5rem; }

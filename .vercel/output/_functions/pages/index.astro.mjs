@@ -1,9 +1,9 @@
 import { e as createComponent, f as createAstro, m as maybeRenderHead, h as addAttribute, r as renderTemplate, k as renderComponent } from '../chunks/astro/server_CfMD-JW6.mjs';
 import 'kleur/colors';
-import { $ as $$Layout } from '../chunks/Layout_CFkXyXlg.mjs';
+import { $ as $$Layout } from '../chunks/Layout_BnHIKau0.mjs';
 import 'clsx';
 /* empty css                                 */
-import { $ as $$Card } from '../chunks/Card_D1cG_D7m.mjs';
+import { $ as $$Card } from '../chunks/Card_DiZGb23t.mjs';
 export { renderers } from '../renderers.mjs';
 
 const $$Astro = createAstro();
@@ -30,10 +30,10 @@ const $$file = "D:/XAMPP/Nueva carpeta/htdocs/young-warriors-web/src/pages/index
 const $$url = "";
 
 const _page = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
-    __proto__: null,
-    default: $$Index,
-    file: $$file,
-    url: $$url
+   __proto__: null,
+   default: $$Index,
+   file: $$file,
+   url: $$url
 }, Symbol.toStringTag, { value: 'Module' }));
 
 const page = () => _page;
