@@ -1,6 +1,6 @@
 import { defineConfig } from 'astro/config';
 import react from "@astrojs/react";
-import vercel from "@astrojs/vercel"; // <-- LÍNEA CORREGIDA
+import vercel from "@astrojs/vercel"; 
 
 export default defineConfig({
   site: 'https://young-warriors-web.vercel.app', 
@@ -8,5 +8,11 @@ export default defineConfig({
     react()
   ],
   output: "server",
-  adapter: vercel() 
+  adapter: vercel({
+
+    includeFiles: [
+      './api/**' 
+    ]
+  })
+
 });
