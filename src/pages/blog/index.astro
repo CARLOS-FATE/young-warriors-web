@@ -3,7 +3,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Card from '../../components/ui/Card.astro';
 
-const response = await fetch(`${Astro.url.origin}/api/posts`);
+const response = await fetch(`${Astro.url.origin}/api/posts.php`);
 const postsData = await response.json();
 ---
 <Layout
