@@ -3,8 +3,6 @@
 import Layout from '../../layouts/Layout.astro';
 import Card from '../../components/ui/Card.astro';
 
-// Datos de los artículos del blog.
-// Por ahora están aquí, pero luego vendrán del backend.
 const response = await fetch(`${Astro.url.origin}/api/posts.php`);
 const postsData = await response.json();
 ---
