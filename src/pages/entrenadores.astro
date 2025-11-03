@@ -3,8 +3,7 @@
 import Layout from '../layouts/Layout.astro';
 import CoachCard from '../components/features/CoachCard.astro';
 
-// Aquí definimos los datos de todo el staff.
-// Más adelante, esta información vendrá de tu backend en PHP.
+
 const response = await fetch(`${Astro.url.origin}/api/admin/coaches.php`);
 const coachesData = await response.json();
 ---
