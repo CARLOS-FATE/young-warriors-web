@@ -3,7 +3,9 @@
 import Layout from '../layouts/Layout.astro';
 import PlayerCard from '../components/features/PlayerCard.jsx';
 
-const response = await fetch('/api/players.php');
+
+const response = await fetch(`${Astro.url.origin}/api/players.php`);
+
 const playersData = await response.json();
 
 // Buscamos al MVP en nuestros datos

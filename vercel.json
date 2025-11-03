@@ -1,6 +1,12 @@
 {
   "version": 2,
   "routes": [
-    { "src": "/api/(.*)", "dest": "/api/$1.php" }
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1.php",
+      "headers": {
+        "cache-control": "no-store, no-cache, must-revalidate, max-age=0"
+      }
+    }
   ]
 }
