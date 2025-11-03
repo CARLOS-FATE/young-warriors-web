@@ -1,11 +1,5 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "api/**/*.php",
-      "use": "@vercel/php"
-    }
-  ],
   "headers": [
     {
       "source": "/api/(.*).php",

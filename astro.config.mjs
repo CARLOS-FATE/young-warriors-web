@@ -8,7 +8,15 @@ export default defineConfig({
     react()
   ],
   output: "server",
-  adapter: vercel() 
-
-  
+  adapter: vercel({
+    // ----- ¡ESTA ES LA SINTAXIS CORRECTA! -----
+    // Le decimos a Vercel que estos archivos son necesarios
+    // en el runtime de la función del servidor.
+    functionPerRoute: false,
+    includeFiles: [
+      './api/ca-tidb.crt', // Incluye el certificado
+      './api/db_connection.php' // Incluye la conexión
+      // Añade aquí CUALQUIER otro archivo que sea "requerido" por tus scripts
+    ]
+  }) 
 });
