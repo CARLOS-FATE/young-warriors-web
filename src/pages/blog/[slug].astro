@@ -2,19 +2,12 @@
 // src/pages/blog/[slug].astro
 import Layout from '../../layouts/Layout.astro';
 
-const response = await fetch('/api/posts.php');
-const allPosts = await response.json();
+// 1. Obtenemos el slug desde la URL (ej. "mi-primer-post")
+const { slug } = Astro.params;
 
-// Esta función le dice a Astro qué páginas debe crear en base a los slugs.
-export function getStaticPaths() {
-  return allPosts.map(post => ({
-    params: { slug: post.slug },
-    props: { post },
-  }));
-}
 
-// Obtenemos los datos del post específico para esta página.
-const { post } = Astro.props;
+const response = await fetch(`${Astro.url.origin}/api/posts.php?slug=${slug}`);
+const post = await response.json();
 ---
 <Layout
   title={post.title}
