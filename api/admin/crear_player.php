@@ -4,8 +4,8 @@
 require_once 'auth.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-require_once $_SERVER['DOCUMENT_ROOT'] . '/api/db_connection.php';
-
+// CORRECTO
+require_once __DIR__ . '/../db_connection.php';
     // Recoger datos del formulario
     $name = $_POST['name'];
     $position = $_POST['position'];

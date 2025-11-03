@@ -3,8 +3,8 @@
 
 require_once 'auth.php';
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/api/db_connection.php';
-// Seleccionamos los datos de la tabla 'posts'
+// CORRECTO
+require_once __DIR__ . '/../db_connection.php';// Seleccionamos los datos de la tabla 'posts'
 $sql = "SELECT id, title, category FROM posts ORDER BY id DESC";
 $result = $conn->query($sql);
 ?>

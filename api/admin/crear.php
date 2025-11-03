@@ -4,8 +4,8 @@ require_once 'auth.php';
 // --- Lógica para procesar el formulario cuando se envía ---
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Conexión a la BD
-require_once $_SERVER['DOCUMENT_ROOT'] . '/api/db_connection.php';
-    // Recoger los datos del formulario
+// CORRECTO
+require_once __DIR__ . '/../db_connection.php';    // Recoger los datos del formulario
     $name = $_POST['name'];
     $role = $_POST['role'];
     $bio = $_POST['bio'];

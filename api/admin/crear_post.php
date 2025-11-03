@@ -4,8 +4,8 @@ require_once 'auth.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // --- Conexión a la BD ---
-require_once $_SERVER['DOCUMENT_ROOT'] . '/api/db_connection.php';
-    // --- Recoger datos del formulario ---
+// CORRECTO
+require_once __DIR__ . '/../db_connection.php';    // --- Recoger datos del formulario ---
     $title = $_POST['title'];
     $description = $_POST['description'];
     $category = $_POST['category'];

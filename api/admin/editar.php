@@ -2,8 +2,8 @@
 // admin/editar.php
 require_once 'auth.php';
 // --- Conexión a la BD (la necesitaremos en ambos casos) ---
-require_once $_SERVER['DOCUMENT_ROOT'] . '/api/db_connection.php'; // Esta línea hace la conexión a TiDB Cloud
-
+// CORRECTO
+require_once __DIR__ . '/../db_connection.php';
 
 // --- Parte 1: Lógica para ACTUALIZAR los datos cuando se envía el formulario ---
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

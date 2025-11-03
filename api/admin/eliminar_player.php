@@ -2,8 +2,8 @@
 // admin/eliminar_player.php
 require_once 'auth.php';
 if(isset($_GET['id']) && !empty($_GET['id'])){
-require_once $_SERVER['DOCUMENT_ROOT'] . '/api/db_connection.php';
-    // Preparar la consulta para la tabla 'players'
+// CORRECTO
+require_once __DIR__ . '/../db_connection.php';    // Preparar la consulta para la tabla 'players'
     $sql = "DELETE FROM players WHERE id = ?";
     
     $stmt = $conn->prepare($sql);

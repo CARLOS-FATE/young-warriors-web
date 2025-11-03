@@ -2,8 +2,8 @@
 // api/login_process.php
 session_start(); // ¡Muy importante! Inicia o reanuda la sesión
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/api/db_connection.php'; // Esta línea hace la conexión a TiDB Cloud
-
+// CORRECTO
+require_once __DIR__ . '/db_connection.php';
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

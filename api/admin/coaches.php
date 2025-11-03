@@ -2,8 +2,8 @@
 // admin/index.php
 require_once 'auth.php';
 // --- Conexión a la BD ---
-require_once $_SERVER['DOCUMENT_ROOT'] . '/api/db_connection.php';
-// --- Obtener todos los entrenadores ---
+// CORRECTO
+require_once __DIR__ . '/../db_connection.php';// --- Obtener todos los entrenadores ---
 $sql = "SELECT id, name, role FROM coaches ORDER BY id DESC";
 $result = $conn->query($sql);
 

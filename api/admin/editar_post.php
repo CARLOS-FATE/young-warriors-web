@@ -1,8 +1,8 @@
 <?php
 
 require_once 'auth.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/api/db_connection.php';
-// --- Lógica para ACTUALIZAR el post ---
+// CORRECTO
+require_once __DIR__ . '/../db_connection.php';// --- Lógica para ACTUALIZAR el post ---
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id = $_POST['id'];
     $title = $_POST['title'];
