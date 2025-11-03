@@ -11,7 +11,7 @@ export default defineConfig({
   adapter: vercel({
 
     includeFiles: [
-      './api/**' 
+      './api' 
     ]
   })
 
