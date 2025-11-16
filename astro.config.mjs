@@ -8,7 +8,7 @@ export default defineConfig({
     react()
   ],
   output: "server" ,
-  adapter: node({  // <-- 2. Usar el adaptador de Node.js
-    mode: "standalone" // Esto es clave para Vercel
+  adapter: node({  
+    mode: "middleware" 
   })
 });

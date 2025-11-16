@@ -13,25 +13,18 @@
       "headers": { "cache-control": "no-store, no-cache" },
       "dest": "/api/$1.php"
     },
-        {
+    
+    {
       "src": "/_astro/(.*)",
       "headers": { "cache-control": "public, max-age=31536000, immutable" },
-      "dest": "/client/_astro/$1"
+      "dest": "/_astro/$1" 
     },
     {
-      "src": "/images/(.*)",
-      "dest": "/client/images/$1"
-    },
-    { 
-      "src": "/favicon.svg", 
-      "dest": "/client/favicon.svg" 
-    },
-    {
-      "handle": "filesystem"
+      "handle": "filesystem" 
     },
     {
       "src": "/(.*)",
-      "dest": "/server/entry.mjs"
+      "dest": "/middleware.mjs" 
     }
   ]
 }
