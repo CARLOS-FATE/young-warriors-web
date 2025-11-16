@@ -1,40 +1,42 @@
 {
   "version": 2,
-  "headers": [
+    "builds": [
     {
-      "source": "/api/(.*).php",
-      "headers": [ 
-        { "key": "cache-control", "value": "no-store" } 
-      ]
+      "src": "api/**/*.php",
+      "use": "@vercel/php" 
+    },
+    {
+      "src": "package.json",
+      "use": "@vercel/node",
+      "config": { "buildCommand": "npm run build" }
     }
   ],
   "routes": [
-    { 
-      "src": "/api/(.*).php", 
-      "dest": "/api/$1.php" 
+   {
+      "src": "/api/(.*).php",
+      "headers": { "cache-control": "no-store, no-cache" },
+      "dest": "/api/$1.php"
     },
-    
-    { 
-      "src": "/_astro/(.*)", 
+    {
+      "src": "/_astro/(.*)",
       "headers": { "cache-control": "public, max-age=31536000, immutable" },
-      "dest": "/dist/client/_astro/$1" 
+      "dest": "/dist/client/_astro/$1"
     },
-    { 
-      "src": "/images/(.*)", 
-      "headers": { "cache-control": "public, max-age=3600" },
-      "dest": "/dist/client/images/$1" 
+    {
+      "src": "/images/(.*)",
+      "dest": "/dist/client/images/$1"
     },
     { 
       "src": "/favicon.svg", 
       "dest": "/dist/client/favicon.svg" 
     },
-
-    { 
+    {
       "handle": "filesystem"
     },
-    { 
-      "src": "/(.*)", 
-      "dest": "/dist/server/entry.mjs" 
+    {
+      "src": "/(.*)",
+      "dest": "/dist/server/entry.mjs"
+    
     }
   ]
 }
