@@ -17,14 +17,14 @@
     {
       "src": "/_astro/(.*)",
       "headers": { "cache-control": "public, max-age=31536000, immutable" },
-      "dest": "/_astro/$1" 
+      "dest": "/dist/_astro/$1" 
     },
     {
       "handle": "filesystem" 
     },
     {
       "src": "/(.*)",
-      "dest": "/middleware.mjs" 
+      "dest": "/dist/middleware.mjs"
     }
   ]
 }
