@@ -2,6 +2,7 @@
 // api/coaches.php
 require_once __DIR__ . '/db_connection.php';
 header("Access-Control-Allow-Origin: *");
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Content-Type: application/json; charset=UTF-8");
 
 $sql = "SELECT id, name, role, img, bio, quote FROM coaches";
