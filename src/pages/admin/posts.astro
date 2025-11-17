@@ -2,9 +2,10 @@
 // src/pages/admin/posts.astro
 import jwt from 'jsonwebtoken';
 
+// 1. Guardia de seguridad (¡Perfecto!)
 const token = Astro.cookies.get('admin_auth_token')?.value;
 try {
-    if (!token) {
+  if (!token) {
     throw new Error('No hay token de autenticación');
   }
   jwt.verify(token, import.meta.env.JWT_SECRET_KEY);
@@ -12,16 +13,18 @@ try {
   return Astro.redirect('/admin/login?error=auth');
 }
 
+// 2. Obtener datos (¡Perfecto!)
 import { query } from '../../../lib/db.js';
-
 interface Post {
   id: number;
   title: string;
   category: string;
 }
-
 const sql = "SELECT id, title, category FROM posts ORDER BY id DESC";
 const posts = await query({ query: sql }) as Post[];
+
+// 3. ¡Importamos nuestro nuevo componente React!
+import PostsList from '../../components/admin/PostsList.jsx';
 ---
 
 <!DOCTYPE html>
@@ -33,38 +36,9 @@ const posts = await query({ query: sql }) as Post[];
 <body>
     <a href="/admin" class="back-link">← Volver al Dashboard</a>
     <h1>Administrar Artículos del Blog</h1>
-    
     <a href="/admin/crear-post" class="add-link">Añadir Nuevo Artículo</a>
-    
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Título</th>
-                <th>Categoría</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {/* 6. Reemplazo del bucle 'while' con .map() */}
-            {posts.length > 0 ? (
-                posts.map(post => (
-                    <tr>
-                        <td>{post.id}</td>
-                        {/* Astro escapa el HTML por defecto, igual que htmlspecialchars() */}
-                        <td>{post.title}</td>
-                        <td>{post.category}</td>
-                        <td class="action-links">
-                            <a href={`/admin/editar-post?id=${post.id}`}>Editar</a>
-                            <a href={`/api/admin/eliminar-post.js?id=${post.id}`} onclick='return confirm("¿Estás seguro?");'>Eliminar</a>
-                        </td>
-                    </tr>
-                ))
-            ) : (
-                <tr><td colspan='4'>No hay artículos registrados.</td></tr>
-            )}
-        </tbody>
-    </table>
+    <PostsList client:load posts={posts} />
+
 </body>
 </html>
   <style>
@@ -79,5 +53,3 @@ const posts = await query({ query: sql }) as Post[];
         .add-link { display: inline-block; margin: 20px 0; padding: 10px 15px; background-color: #28a745; color: white; border-radius: 5px; }
         .back-link { display: block; margin-bottom: 20px; }
     </style>
-
-

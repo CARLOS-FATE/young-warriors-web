@@ -1,31 +1,24 @@
 ---
 // src/pages/admin/coaches.astro
-
 import jwt from 'jsonwebtoken';
 
+// 1. Guardia de seguridad (¡Perfecto!)
 const token = Astro.cookies.get('admin_auth_token')?.value;
-let payload;
-
 try {
-
-    if (!token) {
-    throw new Error('No hay token de autenticación');
-  }
-  payload = jwt.verify(token, import.meta.env.JWT_SECRET_KEY);
-    
+  if (!token) throw new Error('No hay token');
+  jwt.verify(token, import.meta.env.JWT_SECRET_KEY);
 } catch (error) {
   return Astro.redirect('/admin/login?error=auth'); 
 }
 
+// 2. Obtener datos (¡Perfecto!)
 import { query } from '../../../lib/db.js';
-interface Coach {
-  id: number;
-  name: string;
-  role: string;
-}
+interface Coach { id: number; name: string; role: string; }
 const sql = "SELECT id, name, role FROM coaches ORDER BY id DESC";
 const coaches = await query({ query: sql }) as Coach[];
 
+// 3. ¡Importamos nuestro nuevo componente React!
+import CoachesList from '../../components/admin/CoachesList.jsx';
 ---
 
 <!DOCTYPE html>
@@ -34,42 +27,12 @@ const coaches = await query({ query: sql }) as Coach[];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel de Administración - Entrenadores</title>
-    </head>
+</head>
 <body>
 
     <h1>Administrar Entrenadores</h1>
-
     <a href="/admin/crear-entrenador" class="add-link">Añadir Nuevo Entrenador</a>
-   
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Rol</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            
-            {coaches.length > 0 ? (
-                coaches.map(coach => (
-                    <tr>
-                        <td>{coach.id}</td>
-                        <td>{coach.name}</td>
-                        <td>{coach.role}</td>
-                        <td class="action-links">
-                            <a href={`/admin/editar-entrenador?id=${coach.id}`}>Editar</a>
-                            <a href={`/api/admin/eliminar.js?id=${coach.id}`} onclick='return confirm("¿Estás seguro?");'>Eliminar</a>  
-                            
-                        </td>
-                    </tr>
-                ))
-            ) : (
-                <tr><td colspan="4">No hay entrenadores registrados.</td></tr>
-            )}
-        </tbody>
-    </table>
+    <CoachesList client:load coaches={coaches} />
 
 </body>
 </html>

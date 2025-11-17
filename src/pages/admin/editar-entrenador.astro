@@ -3,18 +3,13 @@
 import { checkAdminAuth } from '../../../lib/authAdmin.js'; // <-- ¡Usamos nuestro guardia!
 import { query } from '../../../lib/db.js';
 
-// 1. Verificamos si el admin está logueado.
 checkAdminAuth(Astro);
 
-// 2. Lógica GET (Reemplaza la Parte 2 de tu PHP)
-// Obtener el ID del entrenador desde la URL
 const id = Astro.url.searchParams.get('id');
 if (!id) {
-  // Si no hay ID, no podemos editar nada.
-  return Astro.redirect('/admin/coaches'); // Redirigir a la lista
+  return Astro.redirect('/admin/coaches'); 
 }
 
-// 3. Obtener los datos actuales del entrenador
 const sql = "SELECT * FROM coaches WHERE id = ?";
 const [coach] = await query({ query: sql, values: [id] });
 

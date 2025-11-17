@@ -2,19 +2,17 @@
 // src/pages/admin/players.astro
 import jwt from 'jsonwebtoken';
 
+// 1. Guardia de seguridad
 const token = Astro.cookies.get('admin_auth_token')?.value;
 try {
-
-    if (!token) {
-    throw new Error('No hay token de autenticación');
-  }
+  if (!token) throw new Error('No hay token de autenticación');
   jwt.verify(token, import.meta.env.JWT_SECRET_KEY);
 } catch (error) {
   return Astro.redirect('/admin/login?error=auth');
 }
 
+// 2. Obtener datos
 import { query } from '../../../lib/db.js';
-
 interface Player {
   id: number;
   name: string;
@@ -22,48 +20,24 @@ interface Player {
 }
 const sql = "SELECT id, name, position FROM players ORDER BY id DESC";
 const players = await query({ query: sql }) as Player[];
+
+import PlayersList from '../../components/admin/PlayersList.jsx';
 ---
-  
+ 
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Panel - Administrar Jugadores</title>
-    
 </head>
 <body>
     <a href="/admin" class="back-link">← Volver al Dashboard</a>
     <h1>Administrar Jugadores</h1>
-    
     <a href="/admin/crear-player" class="add-link">Añadir Nuevo Jugador</a>
     
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Posición</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            {players.length > 0 ? (
-                players.map(player => (
-                    <tr>
-                        <td>{player.id}</td>
-                        <td>{player.name}</td>
-                        <td>{player.position}</td>
-                        <td class="action-links">
-                            <a href={`/admin/editar-player?id=${player.id}`}>Editar</a>
-                            <a href={`/api/admin/eliminar-player.js?id=${player.id}`} onclick='return confirm("¿Estás seguro?");'>Eliminar</a>
-                        </td>
-                    </tr>
-                ))
-            ) : (
-                <tr><td colspan="4">No hay jugadores registrados.</td></tr>
-            )}
-        </tbody>
-    </table>
+
+    <PlayersList client:load players={players} />
+
 </body>
 </html>
 
@@ -79,4 +53,3 @@ const players = await query({ query: sql }) as Player[];
         .add-link { display: inline-block; margin: 20px 0; padding: 10px 15px; background-color: #28a745; color: white; border-radius: 5px; }
         .back-link { display: block; margin-bottom: 20px; }
     </style>
-
