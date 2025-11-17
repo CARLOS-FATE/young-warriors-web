@@ -1,0 +1,70 @@
+---
+// src/pages/admin/editar-post.astro
+import { checkAdminAuth } from '../../../lib/authAdmin.js';
+import { query } from '../../../lib/db.js';
+
+// 1. Guardia de seguridad
+checkAdminAuth(Astro);
+
+// 2. Obtener el ID del post de la URL (reemplaza $_GET['id'])
+const id = Astro.url.searchParams.get('id');
+if (!id) {
+  return Astro.redirect('/admin/posts');
+}
+
+interface Post {
+  id: number;
+  title: string;
+  description: string;
+  category: string;
+  content: string;
+}
+
+const sql = "SELECT * FROM posts WHERE id = ?";
+
+const [post] = await query({ query: sql, values: [id] }) as Post[];
+
+if (!post) {
+  return new Response("Artículo no encontrado.", { status: 404 });
+}
+---
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Artículo</title>
+    <style>
+        body { font-family: Arial, sans-serif; /* ... */ }
+        form { max-width: 800px; /* ... */ }
+    </style>
+</head>
+<body>
+    <h1>Editar Artículo</h1>
+    
+    <form action="/api/admin/editar-post.js" method="post">
+        <input type="hidden" name="id" value={post.id} />
+        
+        <div class="form-group">
+            <label for="title">Título:</label>
+            <input type="text" id="title" name="title" value={post.title} required />
+        </div>
+        <div class="form-group">
+            <label for="category">Categoría:</label>
+            <input type="text" id="category" name="category" value={post.category} required />
+        </div>
+        <div class="form-group">
+            <label for="description">Descripción (Resumen):</label>
+            <textarea id="description" name="description" required>{post.description}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="content">Contenido Completo (acepta HTML):</label>
+            <textarea id="content" name="content" required>{post.content}</textarea>
+        </div>
+        
+        <button type="submit">Guardar Cambios</button>
+    </form>
+    
+    <br>
+    <a href="/admin/posts">Cancelar y volver a la lista</a>
+</body>
+</html>

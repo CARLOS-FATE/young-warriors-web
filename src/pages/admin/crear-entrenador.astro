@@ -1,44 +1,16 @@
-<?php
-// admin/crear.php
-require_once 'auth.php';
-// --- Lógica para procesar el formulario cuando se envía ---
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Conexión a la BD
-// CORRECTO
-require_once __DIR__ . '/../db_connection.php';    // Recoger los datos del formulario
-    $name = $_POST['name'];
-    $role = $_POST['role'];
-    $bio = $_POST['bio'];
-    $quote = $_POST['quote'];
-    $img = '/images/coach-placeholder.jpg'; // Imagen por defecto
+---
+// src/pages/admin/crear-entrenador.astro
+import { checkAdminAuth } from '../../../lib/authAdmin.js'; // <-- ¡Usamos nuestro guardia!
 
-    // Preparar y ejecutar la consulta SQL para insertar los datos
-    $sql = "INSERT INTO coaches (name, role, bio, quote, img) VALUES (?, ?, ?, ?, ?)";
-    
-    $stmt = $conn->prepare($sql);
-    // 'sssss' significa que estamos enviando 5 strings
-    $stmt->bind_param("sssss", $name, $role, $bio, $quote, $img);
-
-    if ($stmt->execute()) {
-        // Redirigir a la página principal si fue exitoso
-        header("Location: index.php");
-        exit();
-    } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
-    }
-
-    $stmt->close();
-    $conn->close();
-}
-?>
-
+// 1. Verificamos si el admin está logueado. Si no, esta función redirige.
+checkAdminAuth(Astro);
+---
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Añadir Nuevo Entrenador</title>
     <style>
-        /* Mismos estilos que index.php para consistencia */
         body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
         h1 { color: #333; }
         form { max-width: 600px; margin-top: 20px; }
@@ -53,7 +25,7 @@ require_once __DIR__ . '/../db_connection.php';    // Recoger los datos del form
 <body>
     <h1>Añadir Nuevo Entrenador</h1>
     
-    <form action="crear.php" method="post">
+    <form action="/api/admin/crear-entrenador.js" method="post">
         <div class="form-group">
             <label for="name">Nombre:</label>
             <input type="text" id="name" name="name" required>
@@ -74,6 +46,6 @@ require_once __DIR__ . '/../db_connection.php';    // Recoger los datos del form
     </form>
     
     <br>
-    <a href="index.php">Volver a la lista</a>
+    <a href="/admin/coaches">Volver a la lista</a>
 </body>
 </html>

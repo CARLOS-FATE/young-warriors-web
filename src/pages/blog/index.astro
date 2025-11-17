@@ -3,8 +3,18 @@
 import Layout from '../../layouts/Layout.astro';
 import Card from '../../components/ui/Card.astro';
 
-const response = await fetch(`${Astro.url.origin}/api/posts.php?t=${Date.now()}`);
-const postsData = await response.json();
+interface Post {
+  id: number;
+  slug: string;
+  image: string;
+  title: string;
+  category: string;
+  description: string;
+}
+
+const response = await fetch(`${Astro.url.origin}/api/posts.js?t=${Date.now()}`);
+
+const postsData = await response.json() as Post[];
 ---
 <Layout
   title="Blog Educativo | Young Warriors Club"

@@ -1,0 +1,46 @@
+---
+// src/pages/admin/crear-post.astro
+import { checkAdminAuth } from '../../../lib/authAdmin.js'; // <-- ¡Usamos nuestro guardia!
+
+// 1. Verificamos si el admin está logueado. Si no, esta función redirige.
+checkAdminAuth(Astro);
+---
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Añadir Nuevo Artículo</title>
+    <style>
+        body { font-family: Arial, sans-serif; /* ... */ }
+        form { max-width: 800px; /* ... */ }
+        /* ... (Copia el resto de tus estilos de crear_post.php) ... */
+    </style>
+</head>
+<body>
+    <h1>Añadir Nuevo Artículo</h1>
+    
+    <form action="/api/admin/crear-post.js" method="post">
+        <div class="form-group">
+            <label for="title">Título:</label>
+            <input type="text" id="title" name="title" required>
+        </div>
+        <div class="form-group">
+            <label for="category">Categoría:</label>
+            <input type="text" id="category" name="category" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Descripción (Resumen):</label>
+            <textarea id="description" name="description" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="content">Contenido Completo (acepta HTML):</label>
+            <textarea id="content" name="content" required></textarea>
+        </div>
+        
+        <button type="submit">Guardar Artículo</button>
+    </form>
+    
+    <br>
+    <a href="/admin/posts">Volver a la lista</a>
+</body>
+</html>

@@ -4,8 +4,18 @@ import Layout from '../layouts/Layout.astro';
 import CoachCard from '../components/features/CoachCard.astro';
 
 
-const response = await fetch(`${Astro.url.origin}/api/admin/coaches.php?t=${Date.now()}`);
-const coachesData = await response.json();
+interface Coach {
+  id: number;
+  name: string;
+  role: string;
+  img: string;
+  bio: string;
+  quote: string;
+}
+
+const response = await fetch(`${Astro.url.origin}/api/coaches.js?t=${Date.now()}`);
+
+const coachesData = await response.json() as Coach[];
 ---
 
 <Layout

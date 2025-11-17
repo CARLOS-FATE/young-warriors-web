@@ -3,11 +3,21 @@
 import Layout from '../layouts/Layout.astro';
 import PlayerCard from '../components/features/PlayerCard.jsx';
 
-
-const response = await fetch(`${Astro.url.origin}/api/players.php?t=${Date.now()}`);
-
-const playersData = await response.json();
-
+interface Player {
+  id: number;
+  name: string;
+  img: string;
+  position: string;
+  isMVP: boolean;
+  skills: {
+    dribbling: number;
+    pase: number;
+    lanzamiento: number;
+  };
+  teamAchievements: string[]; // O 'any[]' si no estamos seguros
+}
+const response = await fetch(`${Astro.url.origin}/api/players.js?t=${Date.now()}`);
+const playersData = await response.json() as Player[];
 // Buscamos al MVP en nuestros datos
 const mvp = playersData.find(player => player.isMVP);
 ---
