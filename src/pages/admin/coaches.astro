@@ -62,7 +62,7 @@ const coaches = await query({ query: sql }) as Coach[];
                             <a href={`/admin/editar-entrenador?id=${coach.id}`}>Editar</a>
                             <a href={`/api/admin/eliminar.js?id=${coach.id}`} onclick='return confirm("¿Estás seguro?");'>Eliminar</a>  
                             
-                                                  </td>
+                        </td>
                     </tr>
                 ))
             ) : (
