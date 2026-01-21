@@ -1,24 +1,15 @@
 ---
-// src/pages/admin/coaches.astro
-import jwt from 'jsonwebtoken';
+// 1. Importamos el layout que SÍ maneja la seguridad
+import AdminLayout from '@/layouts/AdminLayout.astro';
 
-// 1. Guardia de seguridad (¡Perfecto!)
-const token = Astro.cookies.get('admin_auth_token')?.value;
-try {
-  if (!token) throw new Error('No hay token');
-  jwt.verify(token, import.meta.env.JWT_SECRET_KEY);
-} catch (error) {
-  return Astro.redirect('/admin/login?error=auth'); 
-}
+// 2. Importamos los componentes y utilidades con ALIAS
+import { query } from '@/lib/db.js';
+import CoachesList from '@/components/admin/CoachesList.jsx';
 
-// 2. Obtener datos (¡Perfecto!)
-import { query } from '../../../lib/db.js';
+// 3. Obtenemos los datos (¡esto es lo único que esta página debe hacer!)
 interface Coach { id: number; name: string; role: string; }
 const sql = "SELECT id, name, role FROM coaches ORDER BY id DESC";
 const coaches = await query({ query: sql }) as Coach[];
-
-// 3. ¡Importamos nuestro nuevo componente React!
-import CoachesList from '../../components/admin/CoachesList.jsx';
 ---
 
 <!DOCTYPE html>

@@ -1,55 +1,88 @@
 ---
 // src/pages/admin/posts.astro
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 
 // 1. Guardia de seguridad (¡Perfecto!)
-const token = Astro.cookies.get('admin_auth_token')?.value;
+const token = Astro.cookies.get("admin_auth_token")?.value;
 try {
   if (!token) {
-    throw new Error('No hay token de autenticación');
+    throw new Error("No hay token de autenticación");
   }
   jwt.verify(token, import.meta.env.JWT_SECRET_KEY);
 } catch (error) {
-  return Astro.redirect('/admin/login?error=auth');
+  return Astro.redirect("/admin/login?error=auth");
 }
 
 // 2. Obtener datos (¡Perfecto!)
-import { query } from '../../../lib/db.js';
+import { query } from "../../../lib/db.js";
 interface Post {
   id: number;
   title: string;
   category: string;
 }
 const sql = "SELECT id, title, category FROM posts ORDER BY id DESC";
-const posts = await query({ query: sql }) as Post[];
+const posts = (await query({ query: sql })) as Post[];
 
 // 3. ¡Importamos nuestro nuevo componente React!
-import PostsList from '../../components/admin/PostsList.jsx';
+import PostsList from "../../components/admin/PostsList.jsx";
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Panel - Administrar Blog</title>
-</head>
-<body>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 20px;
+      }
+      h1 {
+        color: #333;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+      a {
+        color: #007bff;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .action-links a {
+        margin-right: 10px;
+      }
+      .add-link {
+        display: inline-block;
+        margin: 20px 0;
+        padding: 10px 15px;
+        background-color: #28a745;
+        color: white;
+        border-radius: 5px;
+      }
+      .back-link {
+        display: block;
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
     <a href="/admin" class="back-link">← Volver al Dashboard</a>
     <h1>Administrar Artículos del Blog</h1>
     <a href="/admin/crear-post" class="add-link">Añadir Nuevo Artículo</a>
     <PostsList client:load posts={posts} />
-
-</body>
+  </body>
 </html>
-  <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }
-        h1 { color: #333; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        a { color: #007bff; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-        .action-links a { margin-right: 10px; }
-        .add-link { display: inline-block; margin: 20px 0; padding: 10px 15px; background-color: #28a745; color: white; border-radius: 5px; }
-        .back-link { display: block; margin-bottom: 20px; }
-    </style>

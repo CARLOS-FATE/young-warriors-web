@@ -1,14 +1,30 @@
 {
   "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    /* Configuración de JSX (¡Esto estaba correcto!) */
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
+
+    /* --- NUEVO: Configuración de Alias --- */
+    /* Le decimos que la raíz del proyecto es "." */
+    "baseUrl": ".",
+    /* Definimos nuestros alias */
+    "paths": {
+      "@/components/*": ["src/components/*"],
+      "@/layouts/*": ["src/layouts/*"],
+      "@/lib/*": ["src/lib/*"],
+      "@/pages/*": ["src/pages/*"]
+      /* Añade más alias según necesites (ej: '@/styles/*') */
+    }
+    /* --- Fin de la sección de Alias --- */
+  },
   "include": [
     ".astro/types.d.ts",
-    "**/*"
+    "src/**/*",  // <-- Más específico que "**/*"
+    "astro.config.mjs"
   ],
   "exclude": [
-    "dist"
-  ],
-  "compilerOptions": {
-    "jsx": "react-jsx",
-    "jsxImportSource": "react"
-  }
+    "dist",
+    "node_modules"
+  ]
 }
