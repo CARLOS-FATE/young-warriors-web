@@ -14,7 +14,32 @@ export async function ensureAdminExists() {
                 username VARCHAR(255) NOT NULL UNIQUE,
                 password_hash VARCHAR(255) NOT NULL,
                 createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            )
+            );
+
+            CREATE TABLE IF NOT EXISTS pricing_items (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                title VARCHAR(255) NOT NULL,
+                price VARCHAR(100) NOT NULL,
+                period VARCHAR(100),
+                category ENUM('matricula', 'mensualidad', 'promo') NOT NULL,
+                description TEXT,
+                features TEXT,
+                highlight BOOLEAN DEFAULT FALSE,
+                createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            );
+
+            CREATE TABLE IF NOT EXISTS attendance (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                player_id INT,
+                coach_id INT,
+                date DATE NOT NULL,
+                status ENUM('present', 'absent', 'excused', 'late') DEFAULT 'present',
+                notes TEXT,
+                createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                FOREIGN KEY (player_id) REFERENCES players(id) ON DELETE CASCADE,
+                FOREIGN KEY (coach_id) REFERENCES coaches(id) ON DELETE CASCADE
+            );
+
         `);
 
         // Check for admin

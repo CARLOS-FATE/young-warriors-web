@@ -11,7 +11,17 @@ export default function PlayersManagement() {
 
     // Form State
     const [isEditing, setIsEditing] = useState(false);
-    const [currentItem, setCurrentItem] = useState<Partial<Player>>({ name: '', position: '', imageUrl: '' });
+    const [currentItem, setCurrentItem] = useState<Partial<Player>>({
+        name: '',
+        position: '',
+        imageUrl: '',
+        height: '',
+        weight: '',
+        ppg: 0,
+        rpg: 0,
+        apg: 0
+    });
+
     const [showForm, setShowForm] = useState(false);
 
     useEffect(() => {
@@ -41,7 +51,17 @@ export default function PlayersManagement() {
             }
 
             setShowForm(false);
-            setCurrentItem({ name: '', position: '', imageUrl: '' });
+            setCurrentItem({
+                name: '',
+                position: '',
+                imageUrl: '',
+                height: '',
+                weight: '',
+                ppg: 0,
+                rpg: 0,
+                apg: 0
+            });
+
             setIsEditing(false);
             loadPlayers();
         } catch (err: any) {
@@ -67,7 +87,17 @@ export default function PlayersManagement() {
     };
 
     const openCreate = () => {
-        setCurrentItem({ name: '', position: '', imageUrl: '' });
+        setCurrentItem({
+            name: '',
+            position: '',
+            imageUrl: '',
+            height: '',
+            weight: '',
+            ppg: 0,
+            rpg: 0,
+            apg: 0
+        });
+
         setIsEditing(false);
         setShowForm(true);
     };
@@ -129,6 +159,63 @@ export default function PlayersManagement() {
                                     placeholder="https://..."
                                 />
                             </div>
+
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-gray-400 text-xs font-bold uppercase mb-1">Height</label>
+                                    <input
+                                        type="text"
+                                        className="w-full bg-black border border-gray-700 p-3 rounded text-white focus:border-[var(--brand)] outline-none"
+                                        value={currentItem.height || ''}
+                                        onChange={e => setCurrentItem({ ...currentItem, height: e.target.value })}
+                                        placeholder="6'2&quot;"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-gray-400 text-xs font-bold uppercase mb-1">Weight</label>
+                                    <input
+                                        type="text"
+                                        className="w-full bg-black border border-gray-700 p-3 rounded text-white focus:border-[var(--brand)] outline-none"
+                                        value={currentItem.weight || ''}
+                                        onChange={e => setCurrentItem({ ...currentItem, weight: e.target.value })}
+                                        placeholder="185 lbs"
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-3 gap-4">
+                                <div>
+                                    <label className="block text-gray-400 text-xs font-bold uppercase mb-1">PPG</label>
+                                    <input
+                                        type="number"
+                                        step="0.1"
+                                        className="w-full bg-black border border-gray-700 p-3 rounded text-white focus:border-[var(--brand)] outline-none"
+                                        value={currentItem.ppg || 0}
+                                        onChange={e => setCurrentItem({ ...currentItem, ppg: parseFloat(e.target.value) })}
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-gray-400 text-xs font-bold uppercase mb-1">RPG</label>
+                                    <input
+                                        type="number"
+                                        step="0.1"
+                                        className="w-full bg-black border border-gray-700 p-3 rounded text-white focus:border-[var(--brand)] outline-none"
+                                        value={currentItem.rpg || 0}
+                                        onChange={e => setCurrentItem({ ...currentItem, rpg: parseFloat(e.target.value) })}
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-gray-400 text-xs font-bold uppercase mb-1">APG</label>
+                                    <input
+                                        type="number"
+                                        step="0.1"
+                                        className="w-full bg-black border border-gray-700 p-3 rounded text-white focus:border-[var(--brand)] outline-none"
+                                        value={currentItem.apg || 0}
+                                        onChange={e => setCurrentItem({ ...currentItem, apg: parseFloat(e.target.value) })}
+                                    />
+                                </div>
+                            </div>
+
 
                             <div className="pt-4 flex gap-3">
                                 <button type="submit" className="flex-1 bg-[var(--brand)] text-black font-bold py-3 rounded hover:opacity-90">

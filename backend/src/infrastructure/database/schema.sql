@@ -6,7 +6,12 @@ CREATE TABLE IF NOT EXISTS players (
     name VARCHAR(255) NOT NULL,
     position VARCHAR(255) NOT NULL,
     imageUrl VARCHAR(2048),
-    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    height VARCHAR(50),
+    weight VARCHAR(50),
+    ppg DECIMAL(4, 1) DEFAULT 0,
+    rpg DECIMAL(4, 1) DEFAULT 0,
+    apg DECIMAL(4, 1) DEFAULT 0,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS coaches (
@@ -38,10 +43,35 @@ CREATE TABLE IF NOT EXISTS admins (
 CREATE TABLE IF NOT EXISTS ad_videos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255),
-    videoUrl VARCHAR(2048) NOT NULL,
-    isActive BOOLEAN DEFAULT TRUE,
+    video_url VARCHAR(2048) NOT NULL,
+    platform VARCHAR(50) DEFAULT 'other',
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE IF NOT EXISTS pricing_items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    price VARCHAR(100) NOT NULL,
+    period VARCHAR(100),
+    category ENUM('matricula', 'mensualidad', 'promo') NOT NULL,
+    description TEXT,
+    features TEXT,
+    highlight BOOLEAN DEFAULT FALSE,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS attendance (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    player_id INT,
+    coach_id INT,
+    date DATE NOT NULL,
+    status ENUM('present', 'absent', 'excused', 'late') DEFAULT 'present',
+    notes TEXT,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (player_id) REFERENCES players(id) ON DELETE CASCADE,
+    FOREIGN KEY (coach_id) REFERENCES coaches(id) ON DELETE CASCADE
+);
+
 
 INSERT INTO players (name, position) VALUES ('Lionel Messi', 'Forward'), ('Cristiano Ronaldo', 'Forward');
 INSERT INTO coaches (name, role) VALUES ('Pep Guardiola', 'Head Coach');

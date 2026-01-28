@@ -27,8 +27,14 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                     <Link href="/admin/posts" className="block px-4 py-2 rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition-colors">
                         Blog Posts
                     </Link>
-                    <Link href="/admin/marketing" className="block px-4 py-2 rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition-colors">
-                        Marketing Clips
+                    <Link href="/admin/marketing" className="block p-3 text-gray-400 hover:text-white hover:bg-gray-800 rounded transition-colors">
+                        Marketing (Videos)
+                    </Link>
+                    <Link href="/admin/pricing" className="block p-3 text-gray-400 hover:text-white hover:bg-gray-800 rounded transition-colors">
+                        Pricing & Promos
+                    </Link>
+                    <Link href="/admin/attendance" className="block p-3 text-gray-400 hover:text-white hover:bg-gray-800 rounded transition-colors">
+                        Attendance
                     </Link>
                 </nav>
 

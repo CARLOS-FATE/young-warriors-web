@@ -6,30 +6,34 @@ import { ResultSetHeader, RowDataPacket } from "mysql2";
 export class MySQLPlayerRepository implements IPlayerRepository {
     async findAll(): Promise<Player[]> {
         const [rows] = await pool.query<RowDataPacket[]>("SELECT * FROM players ORDER BY id DESC");
-        return rows.map((row) => new Player(row.id, row.name, row.position, row.imageUrl, row.created_at));
+        return rows.map((row) => new Player(row.id, row.name, row.position, row.imageUrl, row.height, row.weight, row.ppg, row.rpg, row.apg, row.created_at));
+
     }
 
     async findById(id: number): Promise<Player | null> {
         const [rows] = await pool.query<RowDataPacket[]>("SELECT * FROM players WHERE id = ?", [id]);
         if (rows.length === 0) return null;
         const row = rows[0];
-        return new Player(row.id, row.name, row.position, row.imageUrl, row.created_at);
+        return new Player(row.id, row.name, row.position, row.imageUrl, row.height, row.weight, row.ppg, row.rpg, row.apg, row.created_at);
+
     }
 
     async create(player: Player): Promise<Player> {
         const [result] = await pool.query<ResultSetHeader>(
-            "INSERT INTO players (name, position, imageUrl) VALUES (?, ?, ?)",
-            [player.name, player.position, player.imageUrl]
+            "INSERT INTO players (name, position, imageUrl, height, weight, ppg, rpg, apg) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            [player.name, player.position, player.imageUrl, player.height, player.weight, player.ppg || 0, player.rpg || 0, player.apg || 0]
         );
+
         player.id = result.insertId;
         return player;
     }
 
     async update(player: Player): Promise<Player> {
         await pool.query(
-            "UPDATE players SET name = ?, position = ?, imageUrl = ? WHERE id = ?",
-            [player.name, player.position, player.imageUrl, player.id]
+            "UPDATE players SET name = ?, position = ?, imageUrl = ?, height = ?, weight = ?, ppg = ?, rpg = ?, apg = ? WHERE id = ?",
+            [player.name, player.position, player.imageUrl, player.height, player.weight, player.ppg, player.rpg, player.apg, player.id]
         );
+
         return player;
     }
 

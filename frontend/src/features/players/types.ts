@@ -3,5 +3,11 @@ export interface Player {
     name: string;
     position: string;
     imageUrl?: string;
-    createdAt?: string; // Date usually comes as string from JSON
+    height?: string;
+    weight?: string;
+    ppg?: number;
+    rpg?: number;
+    apg?: number;
+    createdAt?: string;
+
 }

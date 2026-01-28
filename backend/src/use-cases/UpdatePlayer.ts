@@ -13,7 +13,13 @@ export class UpdatePlayer {
             data.name || existingPlayer.name,
             data.position || existingPlayer.position,
             data.imageUrl || existingPlayer.imageUrl,
+            data.height || existingPlayer.height,
+            data.weight || existingPlayer.weight,
+            data.ppg ?? existingPlayer.ppg,
+            data.rpg ?? existingPlayer.rpg,
+            data.apg ?? existingPlayer.apg,
             existingPlayer.createdAt
+
         );
 
         return this.playerRepository.update(updatedPlayer);
