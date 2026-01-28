@@ -18,7 +18,9 @@ export class UpdatePlayer {
             data.ppg ?? existingPlayer.ppg,
             data.rpg ?? existingPlayer.rpg,
             data.apg ?? existingPlayer.apg,
+            data.tacticalStats || existingPlayer.tacticalStats,
             existingPlayer.createdAt
+
 
         );
 

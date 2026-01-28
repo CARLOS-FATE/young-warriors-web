@@ -9,7 +9,9 @@ export class Player {
         public ppg?: number,
         public rpg?: number,
         public apg?: number,
+        public tacticalStats?: any, // JSON
         public createdAt?: Date
+
 
     ) { }
 }

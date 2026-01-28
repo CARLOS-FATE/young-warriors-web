@@ -3,19 +3,25 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
+import { useLanguage } from '@/lib/i18n/LanguageContext';
 
 export default function Navbar() {
     const pathname = usePathname();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const { t, locale, setLocale } = useLanguage();
 
     const isActive = (path: string) => pathname === path;
 
     const navLinks = [
-        { label: 'Home', href: '/' },
-        { label: 'Roster', href: '/players' },
-        { label: 'Coaches', href: '/coaches' },
-        { label: 'News', href: '/news' },
+        { label: t('nav.home'), href: '/' },
+        { label: t('nav.players'), href: '/players' },
+        { label: t('nav.coaches'), href: '/coaches' },
+        { label: t('nav.news'), href: '/news' },
     ];
+
+    const toggleLanguage = () => {
+        setLocale(locale === 'en' ? 'es' : 'en');
+    };
 
     return (
         <nav className="border-b border-gray-800 bg-black/80 backdrop-blur-md sticky top-0 z-50">
@@ -33,8 +39,8 @@ export default function Navbar() {
                                 key={link.href}
                                 href={link.href}
                                 className={`text-sm font-bold uppercase tracking-wider transition-colors ${isActive(link.href)
-                                        ? 'text-[var(--brand)]'
-                                        : 'text-gray-400 hover:text-white'
+                                    ? 'text-[var(--brand)]'
+                                    : 'text-gray-400 hover:text-white'
                                     }`}
                             >
                                 {link.label}
@@ -44,11 +50,18 @@ export default function Navbar() {
 
                     {/* CTA Button & Mobile Toggle */}
                     <div className="flex items-center gap-4">
+                        <button
+                            onClick={toggleLanguage}
+                            className="text-xs font-bold uppercase text-gray-400 hover:text-white border border-gray-700 rounded px-2 py-1 transition-colors"
+                        >
+                            {locale === 'en' ? 'ES' : 'EN'}
+                        </button>
+
                         <Link
                             href="/register"
                             className="hidden md:block bg-[var(--brand)] text-black text-xs font-bold uppercase px-6 py-3 rounded-lg hover:opacity-90 transition-opacity"
                         >
-                            Join the Team
+                            {t('nav.register')}
                         </Link>
 
                         <button
@@ -79,7 +92,7 @@ export default function Navbar() {
                             onClick={() => setIsMobileMenuOpen(false)}
                             className="block text-center bg-[var(--brand)] text-black text-xs font-bold uppercase px-6 py-3 rounded-lg hover:opacity-90 transition-opacity"
                         >
-                            Join the Team
+                            {t('nav.register')}
                         </Link>
                     </div>
                 )}

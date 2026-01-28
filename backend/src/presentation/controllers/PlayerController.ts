@@ -23,10 +23,11 @@ export class PlayerController {
     async create(req: Request, res: Response) {
         const useCase = new CreatePlayer(this.playerRepository);
         try {
-            const { name, position, imageUrl, height, weight, ppg, rpg, apg } = req.body;
-            const newPlayer = new Player(0, name, position, imageUrl, height, weight, ppg, rpg, apg);
+            const { name, position, imageUrl, height, weight, ppg, rpg, apg, tacticalStats } = req.body;
+            const newPlayer = new Player(0, name, position, imageUrl, height, weight, ppg, rpg, apg, tacticalStats);
 
             const createdPlayer = await useCase.execute(newPlayer);
+
             res.status(201).json(createdPlayer);
         } catch (error) {
             console.error('Error creating player:', error);

@@ -10,8 +10,11 @@ CREATE TABLE IF NOT EXISTS players (
     weight VARCHAR(50),
     ppg DECIMAL(4, 1) DEFAULT 0,
     rpg DECIMAL(4, 1) DEFAULT 0,
+    rpg DECIMAL(4, 1) DEFAULT 0,
     apg DECIMAL(4, 1) DEFAULT 0,
+    tactical_stats JSON,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+
 );
 
 CREATE TABLE IF NOT EXISTS coaches (
