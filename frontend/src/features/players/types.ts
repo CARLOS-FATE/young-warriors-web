@@ -8,6 +8,8 @@ export interface Player {
     ppg?: number;
     rpg?: number;
     apg?: number;
+    tacticalStats?: any; // JSON string or object
     createdAt?: string;
+
 
 }
