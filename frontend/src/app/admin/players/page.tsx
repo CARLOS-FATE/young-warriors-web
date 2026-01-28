@@ -1,53 +1,190 @@
-import { getPlayers } from '@/features/players/service';
-import Link from 'next/link';
+'use client';
 
-export const dynamic = 'force-dynamic';
+import { useState, useEffect } from 'react';
+import { Player } from '@/features/players/types';
+import { getPlayers, createPlayer, updatePlayer, deletePlayer } from '@/features/players/service';
 
-export default async function AdminPlayersPage() {
-    const players = await getPlayers().catch(() => []);
+export default function PlayersManagement() {
+    const [players, setPlayers] = useState<Player[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState('');
+
+    // Form State
+    const [isEditing, setIsEditing] = useState(false);
+    const [currentItem, setCurrentItem] = useState<Partial<Player>>({ name: '', position: '', imageUrl: '' });
+    const [showForm, setShowForm] = useState(false);
+
+    useEffect(() => {
+        loadPlayers();
+    }, []);
+
+    const loadPlayers = async () => {
+        try {
+            const data = await getPlayers();
+            setPlayers(data);
+        } catch (err) {
+            setError('Failed to load players');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setError('');
+
+        try {
+            if (isEditing && currentItem.id) {
+                await updatePlayer(currentItem.id, currentItem);
+            } else {
+                await createPlayer(currentItem as any);
+            }
+
+            setShowForm(false);
+            setCurrentItem({ name: '', position: '', imageUrl: '' });
+            setIsEditing(false);
+            loadPlayers();
+        } catch (err: any) {
+            setError(err.message || 'Operation failed');
+        }
+    };
+
+    const handleDelete = async (id: number) => {
+        if (!confirm('Are you sure in deleting this player?')) return;
+
+        try {
+            await deletePlayer(id);
+            loadPlayers();
+        } catch (err: any) {
+            alert(err.message || 'Delete failed');
+        }
+    };
+
+    const handleEdit = (player: Player) => {
+        setCurrentItem(player);
+        setIsEditing(true);
+        setShowForm(true);
+    };
+
+    const openCreate = () => {
+        setCurrentItem({ name: '', position: '', imageUrl: '' });
+        setIsEditing(false);
+        setShowForm(true);
+    };
 
     return (
         <div>
-            <header className="flex items-center justify-between mb-8">
-                <div>
-                    <h1 className="text-3xl font-bold text-white">Players</h1>
-                    <p className="text-gray-400">Manage your team roster.</p>
-                </div>
-                <Link href="/admin/players/new" className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-lg transition-colors">
+            <div className="flex justify-between items-center mb-8">
+                <h1 className="text-3xl font-black text-[var(--brand)] uppercase tracking-wide">Manage Players</h1>
+                <button
+                    onClick={openCreate}
+                    className="bg-[var(--brand)] text-black font-bold py-2 px-4 rounded hover:opacity-90 transition-opacity"
+                >
                     + Add Player
-                </Link>
-            </header>
-
-            <div className="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden">
-                <table className="w-full text-left">
-                    <thead className="bg-gray-800/50 text-gray-400 border-b border-gray-800">
-                        <tr>
-                            <th className="px-6 py-4 font-medium uppercase text-xs tracking-wider">Name</th>
-                            <th className="px-6 py-4 font-medium uppercase text-xs tracking-wider">Position</th>
-                            <th className="px-6 py-4 font-medium uppercase text-xs tracking-wider text-right">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-800">
-                        {players.length === 0 ? (
-                            <tr>
-                                <td colSpan={3} className="px-6 py-8 text-center text-gray-500">
-                                    No players found.
-                                </td>
-                            </tr>
-                        ) : (
-                            players.map(player => (
-                                <tr key={player.id} className="hover:bg-gray-800/30 transition-colors">
-                                    <td className="px-6 py-4 font-medium text-white">{player.name}</td>
-                                    <td className="px-6 py-4 text-gray-300">{player.position}</td>
-                                    <td className="px-6 py-4 text-right">
-                                        <Link href={`/admin/players/${player.id}`} className="text-blue-400 hover:text-blue-300 mr-4 font-medium">Edit</Link>
-                                    </td>
-                                </tr>
-                            ))
-                        )}
-                    </tbody>
-                </table>
+                </button>
             </div>
+
+            {error && <div className="bg-red-500/20 text-red-500 p-4 rounded mb-6 border border-red-500/50">{error}</div>}
+
+            {/* Form Modal (Simplified inline for now) */}
+            {showForm && (
+                <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+                    <div className="bg-gray-900 border border-gray-800 p-8 rounded-2xl w-full max-w-lg relative">
+                        <button
+                            onClick={() => setShowForm(false)}
+                            className="absolute top-4 right-4 text-gray-500 hover:text-white"
+                        >
+                            ✕
+                        </button>
+                        <h2 className="text-2xl font-bold mb-6 text-white">{isEditing ? 'Edit Player' : 'New Player'}</h2>
+
+                        <form onSubmit={handleSubmit} className="space-y-4">
+                            <div>
+                                <label className="block text-gray-400 text-xs font-bold uppercase mb-1">Name</label>
+                                <input
+                                    type="text"
+                                    className="w-full bg-black border border-gray-700 p-3 rounded text-white focus:border-[var(--brand)] outline-none"
+                                    value={currentItem.name}
+                                    onChange={e => setCurrentItem({ ...currentItem, name: e.target.value })}
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-gray-400 text-xs font-bold uppercase mb-1">Position</label>
+                                <input
+                                    type="text"
+                                    className="w-full bg-black border border-gray-700 p-3 rounded text-white focus:border-[var(--brand)] outline-none"
+                                    value={currentItem.position}
+                                    onChange={e => setCurrentItem({ ...currentItem, position: e.target.value })}
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-gray-400 text-xs font-bold uppercase mb-1">Image URL</label>
+                                <input
+                                    type="text"
+                                    className="w-full bg-black border border-gray-700 p-3 rounded text-white focus:border-[var(--brand)] outline-none"
+                                    value={currentItem.imageUrl || ''}
+                                    onChange={e => setCurrentItem({ ...currentItem, imageUrl: e.target.value })}
+                                    placeholder="https://..."
+                                />
+                            </div>
+
+                            <div className="pt-4 flex gap-3">
+                                <button type="submit" className="flex-1 bg-[var(--brand)] text-black font-bold py-3 rounded hover:opacity-90">
+                                    Save
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => setShowForm(false)}
+                                    className="flex-1 bg-gray-800 text-white font-bold py-3 rounded hover:bg-gray-700"
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
+
+            {/* List */}
+            {isLoading ? (
+                <p>Loading...</p>
+            ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {players.map(player => (
+                        <div key={player.id} className="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden group">
+                            <div className="h-48 bg-gray-800 relative">
+                                {player.imageUrl ? (
+                                    <img src={player.imageUrl} alt={player.name} className="w-full h-full object-cover" />
+                                ) : (
+                                    <div className="w-full h-full flex items-center justify-center text-gray-600 text-4xl font-black">
+                                        {player.name.charAt(0)}
+                                    </div>
+                                )}
+                                <div className="absolute top-2 right-2 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <button
+                                        onClick={() => handleEdit(player)}
+                                        className="bg-blue-600 text-white p-2 rounded hover:bg-blue-500"
+                                    >
+                                        Edit
+                                    </button>
+                                    <button
+                                        onClick={() => handleDelete(player.id)}
+                                        className="bg-red-600 text-white p-2 rounded hover:bg-red-500"
+                                    >
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="p-4">
+                                <h3 className="text-xl font-bold text-white">{player.name}</h3>
+                                <p className="text-[var(--brand)] text-sm uppercase font-bold">{player.position}</p>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 }

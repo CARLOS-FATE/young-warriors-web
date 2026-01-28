@@ -35,5 +35,13 @@ CREATE TABLE IF NOT EXISTS admins (
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS ad_videos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255),
+    videoUrl VARCHAR(2048) NOT NULL,
+    isActive BOOLEAN DEFAULT TRUE,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 INSERT INTO players (name, position) VALUES ('Lionel Messi', 'Forward'), ('Cristiano Ronaldo', 'Forward');
 INSERT INTO coaches (name, role) VALUES ('Pep Guardiola', 'Head Coach');
