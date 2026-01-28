@@ -10,35 +10,42 @@ export default async function PlayersPage() {
     });
 
     return (
-        <div className="min-h-screen bg-black text-white p-8">
+        <div className="bg-black text-white p-4 py-20">
             <div className="max-w-7xl mx-auto">
-                <Link href="/" className="text-gray-400 hover:text-white mb-8 inline-block transition-colors">&larr; Back to Home</Link>
-                <h1 className="text-4xl md:text-5xl font-black mb-12 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-600">
-                    Roster
-                </h1>
+                <div className="mb-16 text-center">
+                    <h1 className="text-5xl md:text-7xl font-black mb-4 uppercase tracking-tighter text-white">
+                        The <span className="text-[var(--brand)]">Roster</span>
+                    </h1>
+                    <p className="text-gray-400 max-w-2xl mx-auto text-lg">
+                        Meet the dedicated athletes who give everything on the field.
+                    </p>
+                </div>
 
                 {players.length === 0 ? (
-                    <div className="p-8 border border-dashed border-gray-800 rounded-xl text-center">
-                        <p className="text-gray-500">No players found.</p>
-                        <p className="text-sm text-gray-700 mt-2">Make sure the backend is running and you have added players via Admin.</p>
+                    <div className="p-12 border border-dashed border-gray-800 rounded-2xl text-center bg-gray-900/50">
+                        <p className="text-gray-500 text-xl font-bold">No players found.</p>
+                        <p className="text-sm text-gray-700 mt-2">Check back soon for our season roster.</p>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                         {players.map(player => (
-                            <div key={player.id} className="bg-gray-900/50 backdrop-blur border border-gray-800 rounded-2xl overflow-hidden hover:border-blue-500/50 transition-colors group">
-                                <div className="aspect-[4/3] bg-gray-800 relative flex items-center justify-center overflow-hidden">
+                            <div key={player.id} className="group relative">
+                                <div className="aspect-[3/4] bg-gray-900 rounded-none overflow-hidden relative">
                                     {player.imageUrl ? (
-                                        <img src={player.imageUrl} alt={player.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                                        <img src={player.imageUrl} alt={player.name} className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500" />
                                     ) : (
-                                        <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-800 to-gray-900">
-                                            <span className="text-gray-700 text-6xl font-black select-none">{player.name.charAt(0)}</span>
+                                        <div className="w-full h-full flex items-center justify-center bg-gray-900 border border-gray-800">
+                                            <span className="text-gray-800 text-8xl font-black select-none opacity-20">{player.name.charAt(0)}</span>
                                         </div>
                                     )}
-                                    <div className="absolute inset-0 bg-gradient-to-t from-gray-900 to-transparent opacity-60" />
+
+                                    {/* Overlay Gradient */}
+                                    <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-[var(--brand)] via-transparent to-transparent opacity-0 group-hover:opacity-60 transition-opacity duration-300 mix-blend-multiply" />
                                 </div>
-                                <div className="p-6 relative">
-                                    <h2 className="text-2xl font-bold mb-1 text-white group-hover:text-blue-400 transition-colors">{player.name}</h2>
-                                    <p className="text-gray-400 font-medium tracking-wide uppercase text-sm">{player.position}</p>
+
+                                <div className="pt-4 group-hover:pl-2 transition-all duration-300">
+                                    <h2 className="text-2xl font-black text-white uppercase leading-none mb-1">{player.name}</h2>
+                                    <p className="text-[var(--brand)] font-bold text-sm tracking-wider uppercase">{player.position}</p>
                                 </div>
                             </div>
                         ))}

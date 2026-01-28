@@ -11,6 +11,7 @@ import { MySQLAdminRepository } from './infrastructure/database/MySQLAdminReposi
 import { MySQLAdVideoRepository } from './infrastructure/database/MySQLAdVideoRepository';
 import { authenticateToken } from './infrastructure/auth/AuthMiddleware';
 import { AdVideoController } from './presentation/controllers/AdVideoController';
+import { ensureAdminExists } from './infrastructure/database/ensure-admin';
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -60,6 +61,7 @@ app.post('/api/auth/login', (req, res) => authController.login(req, res));
 // Protected Route Example (will be used for CRUD)
 // app.post('/api/players', authenticateToken, (req, res) => playerController.create(req, res));
 
-app.listen(port, () => {
+app.listen(port, async () => {
+    await ensureAdminExists(); // Auto-seed admin if missing
     console.log(`Server running on port ${port}`);
 });
