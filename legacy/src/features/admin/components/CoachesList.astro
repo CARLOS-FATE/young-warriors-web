@@ -1,0 +1,60 @@
+---
+const { coaches } = Astro.props;
+---
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Rol</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {
+            coaches.length > 0 ? (
+                coaches.map((coach) => (
+                    <tr>
+                        <td>{coach.id}</td>
+                        <td>{coach.name}</td>
+                        <td>{coach.role}</td>
+                        <td class="action-links">
+                            <a href={`/admin/editarEntrenador?id=${coach.id}`}>
+                                Editar
+                            </a>
+                            <a
+                                href={`/api/admin/eliminar?id=${coach.id}`}
+                                class="delete-btn"
+                                data-name={coach.name}
+                            >
+                                Eliminar
+                            </a>
+                        </td>
+                    </tr>
+                ))
+            ) : (
+                <tr>
+                    <td colspan="4">No hay entrenadores registrados.</td>
+                </tr>
+            )
+        }
+    </tbody>
+</table>
+
+<script>
+    const deleteButtons = document.querySelectorAll(".delete-btn");
+
+    deleteButtons.forEach((button) => {
+        button.addEventListener("click", (event) => {
+            const name = button.getAttribute("data-name");
+            const confirmed = confirm(
+                `¿Estás seguro de que quieres eliminar a "${name}"?`,
+            );
+
+            if (!confirmed) {
+                event.preventDefault();
+            }
+        });
+    });
+</script>

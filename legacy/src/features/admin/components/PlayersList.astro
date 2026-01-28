@@ -1,0 +1,61 @@
+---
+const { players } = Astro.props;
+---
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Posición</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {
+            players.length > 0 ? (
+                players.map((player) => (
+                    <tr>
+                        <td>{player.id}</td>
+                        <td>{player.name}</td>
+                        <td>{player.position}</td>
+                        <td class="action-links">
+                            <a href={`/admin/editarPlayer?id=${player.id}`}>
+                                Editar
+                            </a>
+                            <a
+                                href={`/api/admin/eliminar-player?id=${player.id}`}
+                                class="delete-btn"
+                                data-name={player.name}
+                            >
+                                Eliminar
+                            </a>
+                        </td>
+                    </tr>
+                ))
+            ) : (
+                <tr>
+                    <td colspan="4">No hay jugadores registrados.</td>
+                </tr>
+            )
+        }
+    </tbody>
+</table>
+
+<script>
+    // Manejo de eliminación con Vanilla JS
+    const deleteButtons = document.querySelectorAll(".delete-btn");
+
+    deleteButtons.forEach((button) => {
+        button.addEventListener("click", (event) => {
+            const name = button.getAttribute("data-name");
+            const confirmed = confirm(
+                `¿Estás seguro de que quieres eliminar a "${name}"?`,
+            );
+
+            if (!confirmed) {
+                event.preventDefault();
+            }
+        });
+    });
+</script>

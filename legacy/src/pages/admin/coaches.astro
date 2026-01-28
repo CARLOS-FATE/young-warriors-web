@@ -1,0 +1,126 @@
+---
+// src/pages/admin/coaches.astro
+import AdminLayout from "@/layouts/AdminLayout.astro";
+import {
+    CoachesService,
+    type Coach,
+} from "../../features/admin/services/coaches.service";
+
+const coaches = await CoachesService.getCoaches();
+---
+
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Panel de Administración - Entrenadores</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                line-height: 1.6;
+                margin: 20px;
+            }
+            h1 {
+                color: #333;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+            }
+            th,
+            td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: left;
+            }
+            th {
+                background-color: #f2f2f2;
+            }
+            a {
+                color: #007bff;
+                text-decoration: none;
+            }
+            a:hover {
+                text-decoration: underline;
+            }
+            .action-links a {
+                margin-right: 10px;
+            }
+            .add-link {
+                display: inline-block;
+                margin-top: 20px;
+                padding: 10px 15px;
+                background-color: #28a745;
+                color: white;
+                border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Administrar Entrenadores</h1>
+        <a href="/admin/crearEntrenador" class="add-link"
+            >Añadir Nuevo Entrenador</a
+        >
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Rol</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {
+                    coaches.length > 0 ? (
+                        coaches.map((coach) => (
+                            <tr>
+                                <td>{coach.id}</td>
+                                <td>{coach.name}</td>
+                                <td>{coach.role}</td>
+                                <td class="action-links">
+                                    <a
+                                        href={`/admin/editarEntrenador?id=${coach.id}`}
+                                    >
+                                        Editar
+                                    </a>
+                                    <a
+                                        href={`/api/admin/eliminar?id=${coach.id}`}
+                                        class="delete-btn"
+                                        data-name={coach.name}
+                                    >
+                                        Eliminar
+                                    </a>
+                                </td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colspan="4">
+                                No hay entrenadores registrados.
+                            </td>
+                        </tr>
+                    )
+                }
+            </tbody>
+        </table>
+
+        <script>
+            const deleteButtons = document.querySelectorAll(".delete-btn");
+            deleteButtons.forEach((button) => {
+                button.addEventListener("click", (event) => {
+                    const name = button.getAttribute("data-name");
+                    const confirmed = confirm(
+                        `¿Estás seguro de que quieres eliminar a "${name}"?`,
+                    );
+                    if (!confirmed) {
+                        event.preventDefault();
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>
