@@ -12,7 +12,8 @@ export class PostController {
             const posts = await this.postRepository.findAll(); // Direct call for simplicity if use case not created yet
             res.json(posts);
         } catch (error) {
-            res.status(500).json({ error: 'Internal Server Error' });
+            console.error('Error fetching posts:', error);
+            res.status(500).json({ error: 'Internal Server Error', details: error instanceof Error ? error.message : String(error) });
         }
     }
 }

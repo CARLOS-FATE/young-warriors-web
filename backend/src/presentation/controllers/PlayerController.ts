@@ -13,7 +13,8 @@ export class PlayerController {
             const players = await useCase.execute();
             res.json(players);
         } catch (error) {
-            res.status(500).json({ error: 'Internal Server Error' });
+            console.error('Error fetching players:', error);
+            res.status(500).json({ error: 'Internal Server Error', details: error instanceof Error ? error.message : String(error) });
         }
     }
 
@@ -25,7 +26,8 @@ export class PlayerController {
             const createdPlayer = await useCase.execute(newPlayer);
             res.status(201).json(createdPlayer);
         } catch (error) {
-            res.status(500).json({ error: 'Internal Server Error' });
+            console.error('Error creating player:', error);
+            res.status(500).json({ error: 'Internal Server Error', details: error instanceof Error ? error.message : String(error) });
         }
     }
 }

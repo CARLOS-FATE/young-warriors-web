@@ -11,7 +11,8 @@ export class CoachController {
             const coaches = await useCase.execute();
             res.json(coaches);
         } catch (error) {
-            res.status(500).json({ error: 'Internal Server Error' });
+            console.error('Error fetching coaches:', error);
+            res.status(500).json({ error: 'Internal Server Error', details: error instanceof Error ? error.message : String(error) });
         }
     }
 }
