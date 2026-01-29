@@ -2,14 +2,15 @@ import { User } from './types';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api';
 
-const getAuthHeaders = () => {
-    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+const getAuthHeaders = (): Record<string, string> => {
+    if (typeof window === 'undefined') return {};
+    const token = localStorage.getItem('token');
     return token ? { Authorization: `Bearer ${token}` } : {};
 };
 
 export const getUsers = async (): Promise<User[]> => {
     const res = await fetch(`${API_URL}/users`, {
-        headers: { ...getAuthHeaders() }
+        headers: { ...getAuthHeaders() } as HeadersInit
     });
     if (!res.ok) throw new Error('Failed to fetch users');
     return res.json();
@@ -34,7 +35,7 @@ export const createUser = async (userData: Partial<User> & { password: string })
 export const deleteUser = async (id: number): Promise<void> => {
     const res = await fetch(`${API_URL}/users/${id}`, {
         method: 'DELETE',
-        headers: { ...getAuthHeaders() }
+        headers: { ...getAuthHeaders() } as HeadersInit
     });
     if (!res.ok) throw new Error('Failed to delete user');
 };

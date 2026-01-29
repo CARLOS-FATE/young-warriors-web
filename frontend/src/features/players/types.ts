@@ -11,5 +11,6 @@ export interface Player {
     dni?: string;
     phone?: string;
     emergencyPhone?: string;
+    tacticalStats?: any; // JSON string or object
     createdAt?: string;
 }
