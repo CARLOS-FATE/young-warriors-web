@@ -19,10 +19,12 @@ export class UpdatePlayer {
             data.rpg ?? existingPlayer.rpg,
             data.apg ?? existingPlayer.apg,
             data.tacticalStats || existingPlayer.tacticalStats,
+            data.dni || existingPlayer.dni,
+            data.phone || existingPlayer.phone,
+            data.emergencyPhone || existingPlayer.emergencyPhone,
             existingPlayer.createdAt
-
-
         );
+
 
         return this.playerRepository.update(updatedPlayer);
     }

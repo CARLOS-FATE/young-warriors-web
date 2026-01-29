@@ -13,7 +13,11 @@ CREATE TABLE IF NOT EXISTS players (
     rpg DECIMAL(4, 1) DEFAULT 0,
     apg DECIMAL(4, 1) DEFAULT 0,
     tactical_stats JSON,
+    dni VARCHAR(20),
+    phone VARCHAR(20),
+    emergency_phone VARCHAR(20),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+
 
 );
 
@@ -36,12 +40,15 @@ CREATE TABLE IF NOT EXISTS posts (
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS admins (
+CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) NOT NULL UNIQUE,
     password_hash VARCHAR(255) NOT NULL,
+    role ENUM('admin', 'coach', 'player') NOT NULL DEFAULT 'player',
+    related_id INT, -- Links to players.id or coaches.id
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
 
 CREATE TABLE IF NOT EXISTS ad_videos (
     id INT AUTO_INCREMENT PRIMARY KEY,

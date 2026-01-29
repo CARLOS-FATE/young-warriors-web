@@ -1,12 +1,12 @@
 import { Request, Response } from 'express';
-import { LoginAdmin } from '../../use-cases/LoginAdmin';
-import { IAdminRepository } from '../../core/repositories/IAdminRepository';
+import { LoginUser } from '../../use-cases/LoginUser';
+import { IUserRepository } from '../../core/repositories/IUserRepository';
 
 export class AuthController {
-    constructor(private adminRepository: IAdminRepository) { }
+    constructor(private userRepository: IUserRepository) { }
 
     async login(req: Request, res: Response) {
-        const useCase = new LoginAdmin(this.adminRepository);
+        const useCase = new LoginUser(this.userRepository);
         try {
             const { username, password } = req.body;
 
@@ -27,3 +27,4 @@ export class AuthController {
         }
     }
 }
+

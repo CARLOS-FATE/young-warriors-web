@@ -7,7 +7,8 @@ import { PlayerController } from './presentation/controllers/PlayerController';
 import { CoachController } from './presentation/controllers/CoachController';
 import { PostController } from './presentation/controllers/PostController';
 import { AuthController } from './presentation/controllers/AuthController';
-import { MySQLAdminRepository } from './infrastructure/database/MySQLAdminRepository';
+import { MySQLUserRepository } from './infrastructure/database/MySQLUserRepository';
+
 import { MySQLAdVideoRepository } from './infrastructure/database/MySQLAdVideoRepository';
 import { authenticateToken } from './infrastructure/auth/AuthMiddleware';
 import { AdVideoController } from './presentation/controllers/AdVideoController';
@@ -16,6 +17,8 @@ import { MySQLPricingRepository } from './infrastructure/database/MySQLPricingRe
 import { PricingController } from './presentation/controllers/PricingController';
 import { MySQLAttendanceRepository } from './infrastructure/database/MySQLAttendanceRepository';
 import { AttendanceController } from './presentation/controllers/AttendanceController';
+import { UserController } from './presentation/controllers/UserController';
+
 
 
 const app = express();
@@ -29,7 +32,7 @@ app.use(express.json());
 const playerRepo = new MySQLPlayerRepository();
 const coachRepo = new MySQLCoachRepository();
 const postRepo = new MySQLPostRepository();
-const adminRepo = new MySQLAdminRepository();
+const userRepo = new MySQLUserRepository();
 
 const adVideoRepo = new MySQLAdVideoRepository();
 const pricingRepo = new MySQLPricingRepository();
@@ -40,11 +43,15 @@ const attendanceRepo = new MySQLAttendanceRepository();
 const playerController = new PlayerController(playerRepo);
 const coachController = new CoachController(coachRepo);
 const postController = new PostController(postRepo);
-const authController = new AuthController(adminRepo);
+const authController = new AuthController(userRepo);
+
 
 const adVideoController = new AdVideoController(adVideoRepo);
 const pricingController = new PricingController(pricingRepo);
 const attendanceController = new AttendanceController(attendanceRepo);
+const userController = new UserController(userRepo);
+
+
 
 // Routes
 app.get('/api/players', (req, res) => playerController.getAll(req, res));
@@ -81,8 +88,12 @@ app.post('/api/attendance', authenticateToken, (req, res) => attendanceControlle
 // Auth Routes
 app.post('/api/auth/login', (req, res) => authController.login(req, res));
 
-// Protected Route Example (will be used for CRUD)
-// app.post('/api/players', authenticateToken, (req, res) => playerController.create(req, res));
+// User Management Routes (Admin Only)
+import { requireRole } from './infrastructure/auth/AuthMiddleware';
+app.get('/api/users', authenticateToken, requireRole('admin'), (req, res) => userController.getAll(req, res));
+app.post('/api/users', authenticateToken, requireRole('admin'), (req, res) => userController.create(req, res));
+app.delete('/api/users/:id', authenticateToken, requireRole('admin'), (req, res) => userController.delete(req, res));
+
 
 app.listen(port, async () => {
     await ensureAdminExists(); // Auto-seed admin if missing

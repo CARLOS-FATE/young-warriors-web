@@ -7,7 +7,7 @@ import { getPlayers, createPlayer, updatePlayer, deletePlayer } from '@/features
 export default function PlayersManagement() {
     const [players, setPlayers] = useState<Player[]>([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
 
     // Form State
     const [isEditing, setIsEditing] = useState(false);
@@ -19,7 +19,10 @@ export default function PlayersManagement() {
         weight: '',
         ppg: 0,
         rpg: 0,
-        apg: 0
+        apg: 0,
+        phone: '',
+        emergencyPhone: '',
+        dni: ''
     });
 
     const [showForm, setShowForm] = useState(false);
@@ -59,7 +62,10 @@ export default function PlayersManagement() {
                 weight: '',
                 ppg: 0,
                 rpg: 0,
-                apg: 0
+                apg: 0,
+                phone: '',
+                emergencyPhone: '',
+                dni: ''
             });
 
             setIsEditing(false);
@@ -95,31 +101,48 @@ export default function PlayersManagement() {
             weight: '',
             ppg: 0,
             rpg: 0,
-            apg: 0
+            apg: 0,
+            phone: '',
+            emergencyPhone: '',
+            dni: ''
         });
 
         setIsEditing(false);
         setShowForm(true);
     };
 
+    const filteredPlayers = players.filter(p =>
+        p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        (p.dni && p.dni.includes(searchTerm))
+    );
+
     return (
         <div>
-            <div className="flex justify-between items-center mb-8">
+            <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
                 <h1 className="text-3xl font-black text-[var(--brand)] uppercase tracking-wide">Manage Players</h1>
-                <button
-                    onClick={openCreate}
-                    className="bg-[var(--brand)] text-black font-bold py-2 px-4 rounded hover:opacity-90 transition-opacity"
-                >
-                    + Add Player
-                </button>
+                <div className="flex gap-4 w-full md:w-auto">
+                    <input
+                        type="text"
+                        placeholder="Search by Name or DNI..."
+                        className="bg-black border border-gray-700 p-2 rounded text-white focus:border-[var(--brand)] outline-none w-full md:w-64"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                    <button
+                        onClick={openCreate}
+                        className="bg-[var(--brand)] text-black font-bold py-2 px-4 rounded hover:opacity-90 transition-opacity whitespace-nowrap"
+                    >
+                        + Add Player
+                    </button>
+                </div>
             </div>
 
             {error && <div className="bg-red-500/20 text-red-500 p-4 rounded mb-6 border border-red-500/50">{error}</div>}
 
-            {/* Form Modal (Simplified inline for now) */}
+            {/* Form Modal */}
             {showForm && (
                 <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                    <div className="bg-gray-900 border border-gray-800 p-8 rounded-2xl w-full max-w-lg relative">
+                    <div className="bg-gray-900 border border-gray-800 p-8 rounded-2xl w-full max-w-lg relative max-h-[90vh] overflow-y-auto">
                         <button
                             onClick={() => setShowForm(false)}
                             className="absolute top-4 right-4 text-gray-500 hover:text-white"
@@ -139,16 +162,49 @@ export default function PlayersManagement() {
                                     required
                                 />
                             </div>
-                            <div>
-                                <label className="block text-gray-400 text-xs font-bold uppercase mb-1">Position</label>
-                                <input
-                                    type="text"
-                                    className="w-full bg-black border border-gray-700 p-3 rounded text-white focus:border-[var(--brand)] outline-none"
-                                    value={currentItem.position}
-                                    onChange={e => setCurrentItem({ ...currentItem, position: e.target.value })}
-                                    required
-                                />
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-gray-400 text-xs font-bold uppercase mb-1">DNI</label>
+                                    <input
+                                        type="text"
+                                        className="w-full bg-black border border-gray-700 p-3 rounded text-white focus:border-[var(--brand)] outline-none"
+                                        value={currentItem.dni || ''}
+                                        onChange={e => setCurrentItem({ ...currentItem, dni: e.target.value })}
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-gray-400 text-xs font-bold uppercase mb-1">Position</label>
+                                    <input
+                                        type="text"
+                                        className="w-full bg-black border border-gray-700 p-3 rounded text-white focus:border-[var(--brand)] outline-none"
+                                        value={currentItem.position}
+                                        onChange={e => setCurrentItem({ ...currentItem, position: e.target.value })}
+                                        required
+                                    />
+                                </div>
                             </div>
+
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-gray-400 text-xs font-bold uppercase mb-1">Phone</label>
+                                    <input
+                                        type="text"
+                                        className="w-full bg-black border border-gray-700 p-3 rounded text-white focus:border-[var(--brand)] outline-none"
+                                        value={currentItem.phone || ''}
+                                        onChange={e => setCurrentItem({ ...currentItem, phone: e.target.value })}
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-gray-400 text-xs font-bold uppercase mb-1">Emergency Phone</label>
+                                    <input
+                                        type="text"
+                                        className="w-full bg-black border border-gray-700 p-3 rounded text-white focus:border-[var(--brand)] outline-none"
+                                        value={currentItem.emergencyPhone || ''}
+                                        onChange={e => setCurrentItem({ ...currentItem, emergencyPhone: e.target.value })}
+                                    />
+                                </div>
+                            </div>
+
                             <div>
                                 <label className="block text-gray-400 text-xs font-bold uppercase mb-1">Image URL</label>
                                 <input
@@ -216,7 +272,6 @@ export default function PlayersManagement() {
                                 </div>
                             </div>
 
-
                             <div className="pt-4 flex gap-3">
                                 <button type="submit" className="flex-1 bg-[var(--brand)] text-black font-bold py-3 rounded hover:opacity-90">
                                     Save
@@ -239,7 +294,7 @@ export default function PlayersManagement() {
                 <p>Loading...</p>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {players.map(player => (
+                    {filteredPlayers.map(player => (
                         <div key={player.id} className="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden group">
                             <div className="h-48 bg-gray-800 relative">
                                 {player.imageUrl ? (
@@ -265,13 +320,20 @@ export default function PlayersManagement() {
                                 </div>
                             </div>
                             <div className="p-4">
-                                <h3 className="text-xl font-bold text-white">{player.name}</h3>
+                                <h3 className="text-xl font-bold text-white uppercase">{player.name}</h3>
+                                {player.dni && <p className="text-xs text-gray-500 mb-1">DNI: {player.dni}</p>}
                                 <p className="text-[var(--brand)] text-sm uppercase font-bold">{player.position}</p>
                             </div>
                         </div>
                     ))}
+                    {filteredPlayers.length === 0 && (
+                        <div className="col-span-full text-center text-gray-500 py-12">
+                            No players found matching your search.
+                        </div>
+                    )}
                 </div>
             )}
         </div>
     );
+
 }

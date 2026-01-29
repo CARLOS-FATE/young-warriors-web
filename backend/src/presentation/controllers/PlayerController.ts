@@ -23,8 +23,9 @@ export class PlayerController {
     async create(req: Request, res: Response) {
         const useCase = new CreatePlayer(this.playerRepository);
         try {
-            const { name, position, imageUrl, height, weight, ppg, rpg, apg, tacticalStats } = req.body;
-            const newPlayer = new Player(0, name, position, imageUrl, height, weight, ppg, rpg, apg, tacticalStats);
+            const { name, position, imageUrl, height, weight, ppg, rpg, apg, tacticalStats, dni, phone, emergencyPhone } = req.body;
+            const newPlayer = new Player(0, name, position, imageUrl, height, weight, ppg, rpg, apg, tacticalStats, dni, phone, emergencyPhone);
+
 
             const createdPlayer = await useCase.execute(newPlayer);
 

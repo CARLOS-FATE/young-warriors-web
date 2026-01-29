@@ -9,12 +9,15 @@ export async function ensureAdminExists() {
     try {
         // Ensure tables exist (Basic Migration)
         await pool.query(`
-            CREATE TABLE IF NOT EXISTS admins (
+            CREATE TABLE IF NOT EXISTS users (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 username VARCHAR(255) NOT NULL UNIQUE,
                 password_hash VARCHAR(255) NOT NULL,
+                role ENUM('admin', 'coach', 'player') NOT NULL DEFAULT 'player',
+                related_id INT,
                 createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );
+
 
             CREATE TABLE IF NOT EXISTS pricing_items (
                 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -43,14 +46,16 @@ export async function ensureAdminExists() {
         `);
 
         // Check for admin
-        const [rows] = await pool.query<RowDataPacket[]>('SELECT * FROM admins WHERE username = ?', [username]);
+        const [rows] = await pool.query<RowDataPacket[]>('SELECT * FROM users WHERE username = ?', [username]);
+
 
         if (rows.length === 0) {
             const hashedPassword = await bcrypt.hash(password, 10);
-            await pool.query('INSERT INTO admins (username, password_hash) VALUES (?, ?)', [username, hashedPassword]);
+            await pool.query('INSERT INTO users (username, password_hash, role) VALUES (?, ?, ?)', [username, hashedPassword, 'admin']);
             console.log(`[Startup] Auto-seeded admin user: ${username}`);
         } else {
             console.log(`[Startup] Admin user already exists.`);
+
         }
     } catch (error) {
         console.error('[Startup] Error ensuring admin exists:', error);
