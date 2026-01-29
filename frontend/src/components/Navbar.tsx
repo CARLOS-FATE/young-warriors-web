@@ -23,6 +23,8 @@ export default function Navbar() {
         setLocale(locale === 'en' ? 'es' : 'en');
     };
 
+    if (pathname?.includes('/login')) return null;
+
     return (
         <nav className="border-b border-gray-800 bg-black/80 backdrop-blur-md sticky top-0 z-50">
             <div className="container mx-auto px-4">

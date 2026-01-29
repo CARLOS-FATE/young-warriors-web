@@ -31,9 +31,16 @@ export default function AdminLogin() {
                 document.cookie = `admin_token=${res.token}; path=/; max-age=7200; Secure; SameSite=Strict`;
                 localStorage.setItem('token', res.token);
 
+                // Determine redirect path based on role
+                let redirectPath = '/admin'; // default
+                if (res.user && res.user.role) {
+                    if (res.user.role === 'coach') redirectPath = '/dashboard/coach';
+                    if (res.user.role === 'player') redirectPath = '/dashboard/player';
+                }
+
                 // Delay redirect to show animation
                 setTimeout(() => {
-                    router.push('/admin');
+                    router.push(redirectPath);
                 }, 2000);
             } else {
                 setError('Invalid credentials');

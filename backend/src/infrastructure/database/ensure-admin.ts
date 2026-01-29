@@ -16,9 +16,10 @@ export async function ensureAdminExists() {
                 role ENUM('admin', 'coach', 'player') NOT NULL DEFAULT 'player',
                 related_id INT,
                 createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            );
+            )
+        `);
 
-
+        await pool.query(`
             CREATE TABLE IF NOT EXISTS pricing_items (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 title VARCHAR(255) NOT NULL,
@@ -29,8 +30,10 @@ export async function ensureAdminExists() {
                 features TEXT,
                 highlight BOOLEAN DEFAULT FALSE,
                 createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-            );
+            )
+        `);
 
+        await pool.query(`
             CREATE TABLE IF NOT EXISTS attendance (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 player_id INT,
@@ -41,8 +44,7 @@ export async function ensureAdminExists() {
                 createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (player_id) REFERENCES players(id) ON DELETE CASCADE,
                 FOREIGN KEY (coach_id) REFERENCES coaches(id) ON DELETE CASCADE
-            );
-
+            )
         `);
 
         // Check for admin
