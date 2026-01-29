@@ -7,7 +7,9 @@ import { getPlayers, createPlayer, updatePlayer, deletePlayer } from '@/features
 export default function PlayersManagement() {
     const [players, setPlayers] = useState<Player[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
+
 
     // Form State
     const [isEditing, setIsEditing] = useState(false);
