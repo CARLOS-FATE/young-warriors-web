@@ -4,7 +4,10 @@ import Link from 'next/link';
 import { ReactNode, useState } from 'react';
 import { usePathname } from 'next/navigation';
 
+import { useAuth } from '@/context/AuthContext';
+
 export default function AdminLayout({ children }: { children: ReactNode }) {
+    const { logout } = useAuth();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const pathname = usePathname();
 
@@ -66,8 +69,8 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                             href={link.href}
                             onClick={() => setIsSidebarOpen(false)}
                             className={`block px-4 py-2 rounded-lg transition-colors ${isActive(link.href)
-                                    ? 'bg-[var(--brand)] text-black font-bold shadow-[0_0_10px_rgba(249,167,33,0.3)]'
-                                    : 'text-gray-400 hover:text-white hover:bg-white/10'
+                                ? 'bg-[var(--brand)] text-black font-bold shadow-[0_0_10px_rgba(249,167,33,0.3)]'
+                                : 'text-gray-400 hover:text-white hover:bg-white/10'
                                 }`}
                         >
                             {link.label}
@@ -75,8 +78,15 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                     ))}
                 </nav>
 
-                <div className="border-t border-gray-800 pt-6 mt-auto">
-                    <Link href="/" className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-300 transition-colors group">
+                <div className="border-t border-gray-800 pt-6 mt-auto space-y-4">
+                    <button
+                        onClick={() => logout()}
+                        className="w-full flex items-center gap-2 px-4 py-2 text-red-400 hover:text-white hover:bg-red-500/10 rounded-lg transition-colors text-sm font-bold uppercase"
+                    >
+                        <span>⏻</span> Sign Out
+                    </button>
+
+                    <Link href="/" className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-300 transition-colors group px-4">
                         <span className="group-hover:-translate-x-1 transition-transform">&larr;</span> Back to Site
                     </Link>
                 </div>

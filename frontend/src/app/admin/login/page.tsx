@@ -146,19 +146,7 @@ export default function AdminLogin() {
                                     ← Return to Public Site
                                 </a>
 
-                                <div className="text-center pt-2">
-                                    <button
-                                        type="button"
-                                        onClick={() => {
-                                            logout();
-                                            setUsername('');
-                                            setPassword('');
-                                        }}
-                                        className="text-red-500/50 hover:text-red-500 text-[10px] font-bold uppercase tracking-widest transition-colors"
-                                    >
-                                        [ Force Logout ]
-                                    </button>
-                                </div>
+
                             </form>
                         </>
                     )}
