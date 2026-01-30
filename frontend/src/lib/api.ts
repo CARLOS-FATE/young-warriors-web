@@ -19,6 +19,7 @@ export async function fetchFromApi(endpoint: string, options: RequestInit = {}) 
     }
 
     const res = await fetch(`${API_URL}${path}`, {
+        cache: 'no-store', // Disable caching for dynamic data
         ...options,
         headers,
     });
