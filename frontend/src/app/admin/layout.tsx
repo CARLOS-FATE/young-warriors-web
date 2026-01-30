@@ -12,6 +12,9 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     const pathname = usePathname();
 
     const isActive = (path: string) => pathname === path;
+    const isLoginPage = pathname === '/admin/login';
+
+    if (isLoginPage) return <>{children}</>;
 
     const navLinks = [
         { href: '/admin', label: 'Dashboard' },
@@ -46,10 +49,12 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
             )}
 
             {/* Sidebar */}
+            {/* Sidebar */}
             <aside className={`
-                w-64 border-r border-gray-800 bg-black/95 p-6 flex flex-col fixed h-full z-50 transition-transform duration-300
+                w-64 border-r border-gray-800 bg-black/95 p-6 flex flex-col pt-24 md:pt-6
+                fixed top-0 bottom-0 left-0 z-40 transition-transform duration-300
                 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-                md:translate-x-0
+                md:relative md:translate-x-0 md:top-auto md:bottom-auto md:h-auto md:z-0
             `}>
                 <div className="mb-8 hidden md:block">
                     <h2 className="text-xl font-bold text-white tracking-widest uppercase">Admin Panel</h2>
@@ -92,8 +97,8 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                 </div>
             </aside>
 
-            {/* Main Content - Offset for fixed sidebar */}
-            <main className="flex-1 p-4 md:p-8 ml-0 md:ml-64 pt-20 md:pt-8 overflow-auto w-full">
+            {/* Main Content - No offset needed for static sidebar */}
+            <main className="flex-1 p-4 md:p-8 pt-20 md:pt-8 overflow-auto w-full">
                 <div className="max-w-5xl mx-auto">
                     {children}
                 </div>
