@@ -1,18 +1,24 @@
-'use client';
-
 import Link from 'next/link';
-import { ReactNode, useState } from 'react';
-import { usePathname } from 'next/navigation';
+import { ReactNode, useState, useEffect } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 
 import { useAuth } from '@/context/AuthContext';
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
-    const { logout } = useAuth();
+    const { user, logout, isLoading } = useAuth();
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const pathname = usePathname();
+    const router = useRouter();
 
     const isActive = (path: string) => pathname === path;
     const isLoginPage = pathname === '/admin/login';
+
+    useEffect(() => {
+        if (!isLoading && user) {
+            if (user.role === 'coach') router.push('/dashboard/coach');
+            if (user.role === 'player') router.push('/dashboard/player');
+        }
+    }, [user, isLoading, router]);
 
     if (isLoginPage) return <>{children}</>;
 

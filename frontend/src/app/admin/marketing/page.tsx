@@ -12,7 +12,13 @@ export default function MarketingManagement() {
     // Form State
     const [newTitle, setNewTitle] = useState('');
     const [newUrl, setNewUrl] = useState('');
+    const [selectedFile, setSelectedFile] = useState<File | null>(null);
+    const [uploading, setUploading] = useState(false);
     const [showForm, setShowForm] = useState(false);
+
+    // ...
+
+    // ...
 
     useEffect(() => {
         loadVideos();
@@ -29,21 +35,6 @@ export default function MarketingManagement() {
         }
     };
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setError('');
-
-        try {
-            await createAdVideo({ title: newTitle, videoUrl: newUrl });
-            setShowForm(false);
-            setNewTitle('');
-            setNewUrl('');
-            loadVideos();
-        } catch (err: any) {
-            setError(err.message || 'Operation failed');
-        }
-    };
-
     const handleDelete = async (id: number) => {
         if (!confirm('Are you sure?')) return;
         try {
@@ -54,20 +45,49 @@ export default function MarketingManagement() {
         }
     };
 
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setError('');
+        setUploading(true);
+
+        try {
+            let finalUrl = newUrl;
+
+            // Handle File Upload if selected
+            if (selectedFile) {
+                const formData = new FormData();
+                formData.append('file', selectedFile);
+
+                const response = await fetch('http://localhost:3001/api/upload', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (!response.ok) throw new Error('File upload failed');
+
+                const data = await response.json();
+                // Ensure the URL is absolute or valid for the frontend
+                finalUrl = `http://localhost:3001${data.url}`;
+            }
+
+            await createAdVideo({ title: newTitle, videoUrl: finalUrl });
+            setShowForm(false);
+            setNewTitle('');
+            setNewUrl('');
+            setSelectedFile(null);
+            loadVideos();
+        } catch (err: any) {
+            setError(err.message || 'Operation failed');
+        } finally {
+            setUploading(false);
+        }
+    };
+
+    // ...
+
     return (
         <div>
-            <div className="flex justify-between items-center mb-8">
-                <div>
-                    <h1 className="text-3xl font-black text-[var(--brand)] uppercase tracking-wide">Marketing Clips</h1>
-                    <p className="text-gray-400 text-sm mt-1">Manage videos for the Home Page Carousel</p>
-                </div>
-                <button onClick={() => setShowForm(true)} className="bg-[var(--brand)] text-black font-bold py-2 px-4 rounded hover:opacity-90 transition-opacity">
-                    + Add Video
-                </button>
-            </div>
-
-            {error && <div className="bg-red-500/20 text-red-500 p-4 rounded mb-6 border border-red-500/50">{error}</div>}
-
+            {/* ... */}
             {showForm && (
                 <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
                     <div className="bg-gray-900 border border-gray-800 p-8 rounded-2xl w-full max-w-lg relative">
@@ -80,19 +100,39 @@ export default function MarketingManagement() {
                                 <input type="text" className="w-full bg-black border border-gray-700 p-3 rounded text-white focus:border-[var(--brand)] outline-none"
                                     value={newTitle} onChange={e => setNewTitle(e.target.value)} required placeholder="e.g. Summer Camp Highlights" />
                             </div>
-                            <div>
-                                <label className="block text-gray-400 text-xs font-bold uppercase mb-1">Video URL (MP4 or YouTube)</label>
-                                <input type="text" className="w-full bg-black border border-gray-700 p-3 rounded text-white focus:border-[var(--brand)] outline-none"
-                                    value={newUrl} onChange={e => setNewUrl(e.target.value)} required placeholder="https://..." />
+
+                            <div className="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label className="block text-gray-400 text-xs font-bold uppercase mb-1">Video URL (YouTube/Ext)</label>
+                                    <input type="text" className="w-full bg-black border border-gray-700 p-3 rounded text-white focus:border-[var(--brand)] outline-none"
+                                        value={newUrl} onChange={e => setNewUrl(e.target.value)} placeholder="https://..." disabled={!!selectedFile} />
+                                </div>
+                                <div>
+                                    <label className="block text-gray-400 text-xs font-bold uppercase mb-1">OR Upload File</label>
+                                    <input type="file" accept="video/*" className="w-full bg-black border border-gray-700 p-2 rounded text-white text-sm focus:border-[var(--brand)] outline-none"
+                                        onChange={e => {
+                                            if (e.target.files?.[0]) {
+                                                setSelectedFile(e.target.files[0]);
+                                                setNewUrl(''); // Clear URL if file selected
+                                            }
+                                        }}
+                                        disabled={!!newUrl && newUrl.length > 0}
+                                    />
+                                </div>
                             </div>
 
+                            {selectedFile && <p className="text-xs text-green-500">Selected: {selectedFile.name}</p>}
+
                             <div className="pt-4 flex gap-3">
-                                <button type="submit" className="flex-1 bg-[var(--brand)] text-black font-bold py-3 rounded hover:opacity-90">Add Video</button>
+                                <button type="submit" disabled={uploading} className="flex-1 bg-[var(--brand)] text-black font-bold py-3 rounded hover:opacity-90 disabled:opacity-50">
+                                    {uploading ? 'Uploading...' : 'Add Video'}
+                                </button>
                             </div>
                         </form>
                     </div>
                 </div>
             )}
+            {/* ... */}
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {videos.map(video => (

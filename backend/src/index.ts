@@ -26,6 +26,36 @@ const port = process.env.PORT || 3001;
 
 app.use(cors());
 app.use(express.json());
+app.use('/uploads', express.static('uploads'));
+
+import multer from 'multer';
+import path from 'path';
+import fs from 'fs';
+
+// Ensure uploads directory exists
+const uploadDir = 'uploads';
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir);
+}
+
+const storage = multer.diskStorage({
+    destination: (req: any, file: any, cb: any) => {
+        cb(null, 'uploads/');
+    },
+    filename: (req: any, file: any, cb: any) => {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        cb(null, uniqueSuffix + path.extname(file.originalname));
+    }
+});
+const upload = multer({ storage: storage });
+
+app.post('/api/upload', upload.single('file'), (req: any, res) => {
+    if (!req.file) {
+        return res.status(400).json({ message: 'No file uploaded' });
+    }
+    const fileUrl = `/uploads/${req.file.filename}`;
+    res.json({ url: fileUrl });
+});
 
 // Repositories
 

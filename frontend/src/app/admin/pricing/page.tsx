@@ -38,17 +38,12 @@ export default function PricingManagement() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const token = localStorage.getItem('token');
-        if (!token) {
-            router.push('/admin/login');
-            return;
-        }
 
         try {
             if (editingItem) {
-                await pricingService.update(editingItem.id, { ...formData, id: editingItem.id }, token);
+                await pricingService.update(editingItem.id, { ...formData, id: editingItem.id });
             } else {
-                await pricingService.create(formData, token);
+                await pricingService.create(formData);
             }
             setIsModalOpen(false);
             setEditingItem(null);
@@ -62,11 +57,9 @@ export default function PricingManagement() {
 
     const handleDelete = async (id: number) => {
         if (!confirm('Are you sure you want to delete this item?')) return;
-        const token = localStorage.getItem('token');
-        if (!token) return;
 
         try {
-            await pricingService.delete(id, token);
+            await pricingService.delete(id);
             loadItems();
         } catch (error) {
             console.error('Failed to delete item', error);
