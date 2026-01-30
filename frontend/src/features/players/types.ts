@@ -12,5 +12,6 @@ export interface Player {
     phone?: string;
     emergencyPhone?: string;
     tacticalStats?: any; // JSON string or object
+    statsHistory?: any[]; // Array of historical stats
     createdAt?: string;
 }

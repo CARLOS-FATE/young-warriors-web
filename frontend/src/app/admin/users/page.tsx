@@ -21,7 +21,8 @@ export default function UsersPage() {
         username: '',
         password: '',
         role: 'player' as 'admin' | 'coach' | 'player',
-        relatedId: ''
+        relatedId: '',
+        createProfile: false
     });
 
     useEffect(() => {
@@ -67,7 +68,7 @@ export default function UsersPage() {
             const newUser = await createUser(payload);
             setUsers([...users, newUser]);
             setIsCreating(false);
-            setFormData({ username: '', password: '', role: 'player', relatedId: '' });
+            setFormData({ username: '', password: '', role: 'player', relatedId: '', createProfile: false });
         } catch (err: any) {
             alert(err.message || 'Failed to create user');
         }
@@ -186,12 +187,26 @@ export default function UsersPage() {
                                         className="w-full bg-black border border-gray-800 rounded p-3 text-white focus:border-[var(--brand)] outline-none"
                                         value={formData.relatedId}
                                         onChange={e => setFormData({ ...formData, relatedId: e.target.value })}
+                                        disabled={formData.createProfile} // Disable selection if auto-creating
                                     >
                                         <option value="">-- Select Player --</option>
                                         {players.map(p => (
                                             <option key={p.id} value={p.id}>{p.name}</option>
                                         ))}
                                     </select>
+
+                                    <div className="mt-3 flex items-center gap-2">
+                                        <input
+                                            type="checkbox"
+                                            id="createProfilePlayer"
+                                            checked={formData.createProfile}
+                                            onChange={e => setFormData({ ...formData, createProfile: e.target.checked, relatedId: '' })}
+                                            className="w-4 h-4 accent-[var(--brand)]"
+                                        />
+                                        <label htmlFor="createProfilePlayer" className="text-gray-400 text-xs uppercase font-bold cursor-pointer select-none">
+                                            Or Auto-Create "New Player" Profile
+                                        </label>
+                                    </div>
                                 </div>
                             )}
 
@@ -202,12 +217,26 @@ export default function UsersPage() {
                                         className="w-full bg-black border border-gray-800 rounded p-3 text-white focus:border-[var(--brand)] outline-none"
                                         value={formData.relatedId}
                                         onChange={e => setFormData({ ...formData, relatedId: e.target.value })}
+                                        disabled={formData.createProfile}
                                     >
                                         <option value="">-- Select Coach --</option>
                                         {coaches.map(c => (
                                             <option key={c.id} value={c.id}>{c.name}</option>
                                         ))}
                                     </select>
+
+                                    <div className="mt-3 flex items-center gap-2">
+                                        <input
+                                            type="checkbox"
+                                            id="createProfileCoach"
+                                            checked={formData.createProfile}
+                                            onChange={e => setFormData({ ...formData, createProfile: e.target.checked, relatedId: '' })}
+                                            className="w-4 h-4 accent-[var(--brand)]"
+                                        />
+                                        <label htmlFor="createProfileCoach" className="text-gray-400 text-xs uppercase font-bold cursor-pointer select-none">
+                                            Or Auto-Create "New Coach" Profile
+                                        </label>
+                                    </div>
                                 </div>
                             )}
 
