@@ -36,7 +36,7 @@ export class LoginUser {
                 id: user.id,
                 username: user.username,
                 role: user.role,
-                relatedId: user.relatedId
+                relatedId: user.relatedId || undefined
             }
         };
     }

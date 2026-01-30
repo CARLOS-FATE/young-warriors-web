@@ -36,6 +36,9 @@ export class MySQLPlayerRepository implements IPlayerRepository {
 
 
     async delete(id: number): Promise<boolean> {
+        // Unlink from users first
+        await pool.query("UPDATE users SET related_id = NULL WHERE related_id = ? AND role = 'player'", [id]);
+
         const [result] = await pool.query<ResultSetHeader>("DELETE FROM players WHERE id = ?", [id]);
         return result.affectedRows > 0;
     }

@@ -34,6 +34,9 @@ export class MySQLCoachRepository implements ICoachRepository {
     }
 
     async delete(id: number): Promise<boolean> {
+        // Unlink from users first
+        await pool.query("UPDATE users SET related_id = NULL WHERE related_id = ? AND role = 'coach'", [id]);
+
         const [result] = await pool.query<ResultSetHeader>("DELETE FROM coaches WHERE id = ?", [id]);
         return result.affectedRows > 0;
     }
