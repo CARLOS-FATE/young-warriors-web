@@ -36,7 +36,7 @@ export default function AdminLogin() {
                 login(res.token, user);
 
                 // Determine redirect path based on role
-                let redirectPath = '/admin'; // default status for admin
+                let redirectPath = '/admin';
 
                 if (user?.role === 'coach') redirectPath = '/dashboard/coach';
                 if (user?.role === 'player') redirectPath = '/dashboard/player';
