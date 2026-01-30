@@ -6,7 +6,7 @@ import { fetchFromApi } from '@/lib/api';
 import { useAuth } from '@/context/AuthContext';
 
 export default function AdminLogin() {
-    const { login } = useAuth();
+    const { login, logout } = useAuth();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -142,10 +142,22 @@ export default function AdminLogin() {
                                     {loading ? 'Authenticating...' : 'Enter System'}
                                 </button>
 
-                                <div className="text-center pt-4">
-                                    <a href="/" className="text-gray-500 text-[10px] font-bold uppercase tracking-widest hover:text-white transition-colors">
-                                        ← Return to Public Site
-                                    </a>
+                                <a href="/" className="text-gray-500 text-[10px] font-bold uppercase tracking-widest hover:text-white transition-colors">
+                                    ← Return to Public Site
+                                </a>
+
+                                <div className="text-center pt-2">
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            logout();
+                                            setUsername('');
+                                            setPassword('');
+                                        }}
+                                        className="text-red-500/50 hover:text-red-500 text-[10px] font-bold uppercase tracking-widest transition-colors"
+                                    >
+                                        [ Force Logout ]
+                                    </button>
                                 </div>
                             </form>
                         </>
@@ -155,6 +167,6 @@ export default function AdminLogin() {
 
             {/* Ambient Particles (Simplified) */}
             <div className="absolute inset-0 pointer-events-none z-10 bg-[url('/noise.png')] opacity-5"></div>
-        </div>
+        </div >
     );
 }
