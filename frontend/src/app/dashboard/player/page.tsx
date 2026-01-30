@@ -15,6 +15,8 @@ export default function PlayerDashboard() {
     useEffect(() => {
         if (user?.relatedId) {
             loadPlayer(user.relatedId);
+        } else if (user && !user.relatedId) {
+            setLoading(false);
         }
     }, [user]);
 
