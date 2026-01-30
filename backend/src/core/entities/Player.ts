@@ -10,6 +10,7 @@ export class Player {
         public rpg?: number,
         public apg?: number,
         public tacticalStats?: any, // JSON
+        public statsHistory?: any[], // JSON Array
         public dni?: string,
         public phone?: string,
         public emergencyPhone?: string,

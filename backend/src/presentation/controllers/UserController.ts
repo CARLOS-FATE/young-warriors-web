@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { IUserRepository } from '../../core/repositories/IUserRepository';
 import { User } from '../../core/entities/User';
 import bcrypt from 'bcryptjs';
+import pool from '../../infrastructure/database/db';
 
 export class UserController {
     constructor(private userRepository: IUserRepository) { }
@@ -26,7 +27,7 @@ export class UserController {
 
     async create(req: Request, res: Response) {
         try {
-            const { username, password, role, relatedId } = req.body;
+            const { username, password, role, relatedId, createProfile } = req.body;
 
             if (!username || !password) {
                 return res.status(400).json({ error: 'Username and password required' });
@@ -37,8 +38,29 @@ export class UserController {
                 return res.status(400).json({ error: 'Username already exists' });
             }
 
+            let finalRelatedId = relatedId || null;
+
+            // Auto-create profile logic
+            if (createProfile && !finalRelatedId) {
+                if (role === 'player') {
+                    // Create a basic player profile
+                    const [result]: any = await pool.query(
+                        "INSERT INTO players (name, position, ppg, rpg, apg) VALUES (?, ?, 0, 0, 0)",
+                        [username, 'New Player']
+                    );
+                    finalRelatedId = result.insertId;
+                } else if (role === 'coach') {
+                    // Create a basic coach profile
+                    const [result]: any = await pool.query(
+                        "INSERT INTO coaches (name, role) VALUES (?, ?)",
+                        [username, 'Assistant Coach']
+                    );
+                    finalRelatedId = result.insertId;
+                }
+            }
+
             const hashedPassword = await bcrypt.hash(password, 10);
-            const newUser = new User(0, username, hashedPassword, role || 'player', relatedId || null, new Date());
+            const newUser = new User(0, username, hashedPassword, role || 'player', finalRelatedId, new Date());
 
             const createdUser = await this.userRepository.create(newUser);
             res.status(201).json({

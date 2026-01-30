@@ -10,9 +10,10 @@ CREATE TABLE IF NOT EXISTS players (
     weight VARCHAR(50),
     ppg DECIMAL(4, 1) DEFAULT 0,
     rpg DECIMAL(4, 1) DEFAULT 0,
-    rpg DECIMAL(4, 1) DEFAULT 0,
+
     apg DECIMAL(4, 1) DEFAULT 0,
     tactical_stats JSON,
+    stats_history JSON,
     dni VARCHAR(20),
     phone VARCHAR(20),
     emergency_phone VARCHAR(20),
