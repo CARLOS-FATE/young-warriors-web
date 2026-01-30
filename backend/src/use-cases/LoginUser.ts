@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 export class LoginUser {
     constructor(private userRepository: IUserRepository) { }
 
-    async execute(username: string, password: string): Promise<{ token: string, role: string, username: string } | null> {
+    async execute(username: string, password: string): Promise<{ token: string, user: { id: number, username: string, role: string, relatedId?: number } } | null> {
         const user = await this.userRepository.findByUsername(username);
 
         if (!user) {
@@ -30,6 +30,14 @@ export class LoginUser {
             { expiresIn: '24h' }
         );
 
-        return { token, role: user.role, username: user.username };
+        return {
+            token,
+            user: {
+                id: user.id,
+                username: user.username,
+                role: user.role,
+                relatedId: user.relatedId
+            }
+        };
     }
 }

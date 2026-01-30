@@ -3,8 +3,10 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { fetchFromApi } from '@/lib/api';
+import { useAuth } from '@/context/AuthContext';
 
 export default function AdminLogin() {
+    const { login } = useAuth();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -27,19 +29,21 @@ export default function AdminLogin() {
                 setLoading(false);
                 setVerifying(true); // Trigger verifying animation
 
-                // Store token
-                document.cookie = `admin_token=${res.token}; path=/; max-age=7200; Secure; SameSite=Strict`;
-                localStorage.setItem('token', res.token);
+                // Backend now returns { token, user: { ... } }
+                const user = res.user;
+
+                // Update Auth Context
+                login(res.token, user);
 
                 // Determine redirect path based on role
-                let redirectPath = '/admin'; // default
-                if (res.user && res.user.role) {
-                    if (res.user.role === 'coach') redirectPath = '/dashboard/coach';
-                    if (res.user.role === 'player') redirectPath = '/dashboard/player';
-                }
+                let redirectPath = '/admin'; // default status for admin
+
+                if (user?.role === 'coach') redirectPath = '/dashboard/coach';
+                if (user?.role === 'player') redirectPath = '/dashboard/player';
 
                 // Delay redirect to show animation
                 setTimeout(() => {
+                    console.log('Redirecting to:', redirectPath);
                     router.push(redirectPath);
                 }, 2000);
             } else {
