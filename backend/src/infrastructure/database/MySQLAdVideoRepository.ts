@@ -6,12 +6,12 @@ import { ResultSetHeader, RowDataPacket } from "mysql2";
 export class MySQLAdVideoRepository implements IAdVideoRepository {
     async findAll(): Promise<AdVideo[]> {
         const [rows] = await pool.query<RowDataPacket[]>("SELECT * FROM ad_videos ORDER BY id DESC");
-        return rows.map((row) => new AdVideo(row.id, row.title, row.videoUrl, Boolean(row.isActive), row.createdAt));
+        return rows.map((row) => new AdVideo(row.id, row.title, row.video_url, Boolean(row.is_active), row.createdAt));
     }
 
     async create(video: AdVideo): Promise<AdVideo> {
         const [result] = await pool.query<ResultSetHeader>(
-            "INSERT INTO ad_videos (title, videoUrl, isActive) VALUES (?, ?, ?)",
+            "INSERT INTO ad_videos (title, video_url, is_active) VALUES (?, ?, ?)",
             [video.title, video.videoUrl, video.isActive]
         );
         video.id = result.insertId;

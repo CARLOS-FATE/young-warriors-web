@@ -56,6 +56,7 @@ CREATE TABLE IF NOT EXISTS ad_videos (
     title VARCHAR(255),
     video_url VARCHAR(2048) NOT NULL,
     platform VARCHAR(50) DEFAULT 'other',
+    is_active BOOLEAN DEFAULT TRUE,
     createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

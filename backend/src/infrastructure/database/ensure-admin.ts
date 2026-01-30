@@ -77,7 +77,18 @@ export async function ensureAdminExists() {
                 FOREIGN KEY(player_id) REFERENCES players(id) ON DELETE CASCADE,
                 FOREIGN KEY(coach_id) REFERENCES coaches(id) ON DELETE CASCADE
             )
-            `);
+        `);
+
+        await pool.query(`
+            CREATE TABLE IF NOT EXISTS ad_videos (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                title VARCHAR(255),
+                video_url VARCHAR(2048) NOT NULL,
+                platform VARCHAR(50) DEFAULT 'other',
+                is_active BOOLEAN DEFAULT TRUE,
+                createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            )
+        `);
 
         // Check for admin
         const [rows] = await pool.query<RowDataPacket[]>('SELECT * FROM users WHERE username = ?', [username]);
