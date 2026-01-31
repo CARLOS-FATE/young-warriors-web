@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react';
 import { getPlayers } from '@/features/players/service';
 import { Player } from '@/features/players/types';
-import { getAttendanceByDate, markAttendance, AttendanceRecord } from '@/features/attendance/service';
+import { getAttendanceByDate, markAttendance } from '@/features/attendance/service';
+import { AttendanceRecord } from '@/features/attendance/types';
 
 export default function AttendancePage() {
     const [date, setDate] = useState(new Date().toISOString().split('T')[0]);

@@ -3,7 +3,7 @@ export type AttendanceStatus = 'present' | 'absent' | 'excused' | 'late';
 export interface AttendanceRecord {
     id?: number;
     player_id: number;
-    coach_id?: number; // Optional as it might come from auth context
+    coach_id?: number | null; // Optional as it might come from auth context
     date: string; // YYYY-MM-DD
     status: AttendanceStatus;
     notes?: string;
