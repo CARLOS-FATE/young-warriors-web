@@ -85,6 +85,7 @@ const userController = new UserController(userRepo);
 
 // Routes
 app.get('/api/players', (req, res) => playerController.getAll(req, res));
+app.get('/api/players/:id', (req, res) => playerController.getById(req, res));
 app.post('/api/players', authenticateToken, (req, res) => playerController.create(req, res));
 app.put('/api/players/:id', authenticateToken, (req, res) => playerController.update(req, res));
 app.delete('/api/players/:id', authenticateToken, (req, res) => playerController.delete(req, res));

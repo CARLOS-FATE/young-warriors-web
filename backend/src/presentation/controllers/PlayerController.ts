@@ -6,6 +6,8 @@ import { Player } from '../../core/entities/Player';
 import { UpdatePlayer } from '../../use-cases/UpdatePlayer';
 import { DeletePlayer } from '../../use-cases/DeletePlayer';
 
+import { GetPlayerById } from '../../use-cases/GetPlayerById';
+
 export class PlayerController {
     constructor(private playerRepository: IPlayerRepository) { }
 
@@ -17,6 +19,21 @@ export class PlayerController {
         } catch (error) {
             console.error('Error fetching players:', error);
             res.status(500).json({ error: 'Internal Server Error', details: error instanceof Error ? error.message : String(error) });
+        }
+    }
+
+    async getById(req: Request, res: Response) {
+        const useCase = new GetPlayerById(this.playerRepository);
+        try {
+            const id = Number(req.params.id);
+            const player = await useCase.execute(id);
+            if (!player) {
+                return res.status(404).json({ error: 'Player not found' });
+            }
+            res.json(player);
+        } catch (error) {
+            console.error('Error fetching player:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
         }
     }
 
